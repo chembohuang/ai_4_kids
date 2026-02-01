@@ -1,0 +1,16 @@
+[Unit]
+Description=AI 数字识别 - 儿童 AI 教育应用
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/ai4kids
+Environment="PORT=5000"
+Environment="FLASK_DEBUG=false"
+ExecStart=/opt/ai4kids/venv/bin/python app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

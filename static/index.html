@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 AI 数字魔法师 - 让机器认识你写的数字！</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ========================================
+           基础样式和变量
+           ======================================== */
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --darker: #020617;
+            --card: rgba(30, 41, 59, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glow-primary: 0 0 40px rgba(99, 102, 241, 0.5);
+            --glow-secondary: 0 0 40px rgba(236, 72, 153, 0.5);
+            --glow-accent: 0 0 40px rgba(16, 185, 129, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 50%, #1e1b4b 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 动态背景粒子效果 */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.5;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ========================================
+           布局
+           ======================================== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* ========================================
+           头部
+           ======================================== */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 70px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .title {
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary-light), var(--secondary), var(--accent));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientMove 3s ease infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes gradientMove {
+
+            0%,
+            100% {
+                background-position: 0% center;
+            }
+
+            50% {
+                background-position: 200% center;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           主要内容
+           ======================================== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        @media (max-width: 800px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--glow-primary);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .card-icon {
+            font-size: 28px;
+        }
+
+        /* ========================================
+           画板区域 - 核心样式
+           ======================================== */
+        .canvas-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .canvas-frame {
+            position: relative;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            box-shadow: var(--glow-primary), var(--glow-secondary);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(236, 72, 153, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6), 0 0 60px rgba(236, 72, 153, 0.4);
+            }
+        }
+
+        .canvas-inner {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 8px;
+        }
+
+        #canvas {
+            display: block;
+            width: 400px;
+            height: 400px;
+            background: #ffffff;
+            border-radius: 8px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .canvas-label {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .canvas-hint {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .canvas-hint::before {
+            content: '👆';
+        }
+
+        /* ========================================
+           按钮样式
+           ======================================== */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.6);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           结果展示
+           ======================================== */
+        .result-container {
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .result-placeholder-icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+            animation: thinking 2s ease-in-out infinite;
+        }
+
+        @keyframes thinking {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .result-display {
+            display: none;
+            text-align: center;
+            width: 100%;
+        }
+
+        .result-display.show {
+            display: block;
+        }
+
+        .predicted-number {
+            font-size: 140px;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes pop-in {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .confidence-section {
+            margin-top: 20px;
+        }
+
+        .confidence-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .confidence-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #34d399);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.8s ease-out;
+        }
+
+        /* 概率分布 */
+        .probabilities {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .prob-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .prob-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .prob-item {
+            text-align: center;
+        }
+
+        .prob-digit {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .prob-digit.active {
+            color: var(--accent);
+        }
+
+        .prob-bar-wrapper {
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        .prob-bar-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, var(--primary-light), var(--primary));
+            border-radius: 4px;
+            height: 0%;
+            transition: height 0.5s ease-out;
+        }
+
+        .prob-bar-fill.active {
+            background: linear-gradient(180deg, #34d399, var(--accent));
+        }
+
+        .prob-percent {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           教育卡片
+           ======================================== */
+        .edu-section {
+            margin-bottom: 40px;
+        }
+
+        .edu-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .edu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .edu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .edu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .edu-card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .edu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-primary);
+        }
+
+        .edu-card-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .edu-card h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .edu-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .edu-card strong {
+            color: var(--accent);
+        }
+
+        /* ========================================
+           页脚
+           ======================================== */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        /* 加载动画 */
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ========================================
+           教AI学习互动区域
+           ======================================== */
+        .teach-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .teach-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #f59e0b, #ef4444, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .teach-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* 步骤指示器 */
+        .teach-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .step-item.active {
+            opacity: 1;
+        }
+
+        .step-item.completed {
+            opacity: 1;
+        }
+
+        .step-item.completed .step-number {
+            background: var(--accent);
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .step-item.active .step-number {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+            transform: scale(1.1);
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .step-connector {
+            width: 40px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+
+        /* 教学卡片 */
+        .teach-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .teach-card {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+        }
+
+        .teach-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .teach-card h3 .emoji {
+            font-size: 1.8rem;
+        }
+
+        .teach-card>p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        /* Demo结果区域 */
+        .demo-result {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .demo-image-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .demo-image-wrapper img {
+            width: 140px;
+            height: 140px;
+            border-radius: 12px;
+            background: #1e293b;
+            padding: 8px;
+            image-rendering: pixelated;
+        }
+
+        .demo-label {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .demo-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .demo-comparison {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .demo-answer {
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .demo-answer.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .demo-answer.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .answer-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .answer-value {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        .demo-answer.wrong .answer-value {
+            color: #ef4444;
+        }
+
+        .demo-answer.correct .answer-value {
+            color: #10b981;
+        }
+
+        .answer-badge {
+            font-size: 0.8rem;
+        }
+
+        .demo-explanation {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* 数字选择器 */
+        .teach-input-section {
+            margin: 25px 0;
+        }
+
+        .digit-selector {
+            margin-bottom: 25px;
+        }
+
+        .digit-selector label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .digit-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .digit-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .digit-btn:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .digit-btn.active {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* 教学画板 */
+        .teach-canvas-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .canvas-frame.small {
+            padding: 10px;
+        }
+
+        .canvas-frame.small .canvas-inner {
+            padding: 5px;
+        }
+
+        #teachCanvas {
+            display: block;
+            width: 200px;
+            height: 200px;
+            background: #ffffff;
+            border-radius: 8px;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .teach-canvas-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* 样本计数器 */
+        .sample-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 25px;
+            margin: 20px 0;
+        }
+
+        .counter-icon {
+            font-size: 1.3rem;
+        }
+
+        .sample-counter strong {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        /* 步骤按钮 */
+        .step-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .btn-large {
+            padding: 18px 45px;
+            font-size: 1.2rem;
+        }
+
+        /* 训练进度 */
+        .training-info {
+            margin: 20px 0;
+        }
+
+        .training-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: 20px;
+        }
+
+        .stat-icon {
+            font-size: 1.2rem;
+        }
+
+        .training-progress {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+        }
+
+        .progress-animation {
+            margin-bottom: 20px;
+        }
+
+        .brain-training {
+            font-size: 60px;
+            animation: pulse-train 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-train {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        .training-text {
+            margin-top: 10px;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-wrapper {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 12px;
+        }
+
+        .training-complete {
+            margin-top: 30px;
+            padding: 30px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+        }
+
+        .complete-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: celebrate 0.5s ease;
+        }
+
+        @keyframes celebrate {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .training-complete h4 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        /* 验证区域 */
+        .verification-section {
+            margin: 25px 0;
+        }
+
+        .verify-image-wrapper {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .verify-image-wrapper img {
+            width: 140px;
+            height: 140px;
+            border-radius: 12px;
+            background: #1e293b;
+            padding: 8px;
+            image-rendering: pixelated;
+        }
+
+        .verify-result {
+            margin-top: 25px;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+        }
+
+        .verify-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .verify-before,
+        .verify-after {
+            text-align: center;
+        }
+
+        .verify-before h5,
+        .verify-after h5 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .verify-answer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .verify-answer.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .verify-answer.correct {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .verify-arrow {
+            font-size: 2rem;
+        }
+
+        .verify-badge {
+            font-size: 1.2rem;
+        }
+
+        .verify-message {
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+        }
+
+        .verify-message.success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+        }
+
+        .verify-message.partial {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fbbf24;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 背景粒子 -->
+    <div class="bg-particles" id="particles"></div>
+
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="logo">🧙‍♂️</div>
+            <h1 class="title">AI 数字魔法师</h1>
+            <p class="subtitle">画一个数字，让人工智能来猜猜看！</p>
+        </header>
+
+        <!-- 主要内容 -->
+        <div class="main-grid">
+            <!-- 左侧：画板 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="card-icon">✏️</span>
+                    在下面写一个数字 (0-9)
+                </div>
+
+                <div class="canvas-wrapper">
+                    <div class="canvas-frame">
+                        <span class="canvas-label">🎨 在这里画画</span>
+                        <div class="canvas-inner">
+                            <canvas id="canvas" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                    <span class="canvas-hint">用鼠标或手指画一个数字</span>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-secondary" id="clearBtn">
+                        🗑️ 清除
+                    </button>
+                    <button class="btn btn-primary" id="predictBtn">
+                        🔮 让 AI 来认！
+                    </button>
+                </div>
+            </div>
+
+            <!-- 右侧：结果 -->
+            <div class="card">
+                <div class="card-title">
+                    <span class="card-icon">🎯</span>
+                    AI 的答案
+                </div>
+
+                <div class="result-container">
+                    <div class="result-placeholder" id="placeholder">
+                        <div class="result-placeholder-icon">🤔</div>
+                        <p>画完数字后<br>点击"让 AI 来认！"</p>
+                    </div>
+
+                    <div class="result-display" id="resultDisplay">
+                        <div class="predicted-number" id="predictedNumber">?</div>
+
+                        <div class="confidence-section">
+                            <div class="confidence-label">
+                                <span>AI 的信心</span>
+                                <span id="confidenceText">0%</span>
+                            </div>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill"></div>
+                            </div>
+                        </div>
+
+                        <div class="probabilities">
+                            <p class="prob-title">每个数字的可能性：</p>
+                            <div class="prob-grid" id="probGrid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 教育卡片 -->
+        <section class="edu-section">
+            <h2 class="edu-title">🎓 机器是怎么学会认数字的？</h2>
+            <div class="edu-grid">
+                <div class="edu-card">
+                    <div class="edu-card-icon">📚</div>
+                    <h3>1. 看很多例子</h3>
+                    <p>机器看了 <strong>60,000 张</strong>手写数字图片来学习！</p>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-card-icon">🧩</div>
+                    <h3>2. 找规律</h3>
+                    <p>比如 "8" 有两个圈，"1" 是一条竖线，机器会记住这些特点。</p>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-card-icon">🎯</div>
+                    <h3>3. 不断练习</h3>
+                    <p>每次猜错了就调整自己，这叫<strong>训练</strong>！</p>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-card-icon">🧠</div>
+                    <h3>4. 神经网络</h3>
+                    <p>机器用"神经网络"来学习，模仿人脑的工作方式。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🎓 教AI学习互动区域 -->
+        <section class="teach-section">
+            <h2 class="teach-title">👨‍🏫 来当AI的小老师吧！</h2>
+            <p class="teach-subtitle">看看AI哪里不会，然后教它！</p>
+
+            <!-- 步骤指示器 -->
+            <div class="teach-steps">
+                <div class="step-item active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">发现问题</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-item" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">教AI</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-item" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">训练</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-item" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">验证</div>
+                </div>
+            </div>
+
+            <!-- 教学内容区域 -->
+            <div class="teach-content">
+                <!-- 步骤1：发现AI的错误 -->
+                <div class="teach-panel" id="teachStep1">
+                    <div class="teach-card">
+                        <h3><span class="emoji">🔍</span> 第一步：发现AI的错误</h3>
+                        <p>让我们找一个AI认错的数字！</p>
+                        <button class="btn btn-primary" id="findMistakeBtn">
+                            🎲 找一个AI认错的数字
+                        </button>
+                        <div class="demo-result" id="demoResult" style="display: none;">
+                            <div class="demo-image-wrapper">
+                                <img id="demoImage" src="" alt="样本数字">
+                                <span class="demo-label">这是什么数字？</span>
+                            </div>
+                            <div class="demo-info">
+                                <div class="demo-comparison">
+                                    <div class="demo-answer wrong">
+                                        <span class="answer-label">AI说：</span>
+                                        <span class="answer-value" id="aiAnswer">?</span>
+                                        <span class="answer-badge">❌ 错了</span>
+                                    </div>
+                                    <div class="demo-answer correct">
+                                        <span class="answer-label">正确答案：</span>
+                                        <span class="answer-value" id="correctAnswer">?</span>
+                                        <span class="answer-badge">✅</span>
+                                    </div>
+                                </div>
+                                <p class="demo-explanation" id="demoExplanation">
+                                    AI把这个数字认错了！让我们来教它正确的答案。
+                                </p>
+                                <button class="btn btn-primary" id="goToStep2Btn">
+                                    👉 下一步：教AI
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤2：教AI -->
+                <div class="teach-panel" id="teachStep2" style="display: none;">
+                    <div class="teach-card">
+                        <h3><span class="emoji">✏️</span> 第二步：写个正确的数字教AI</h3>
+                        <p>AI把 <strong id="wrongDigitText">?</strong> 认错了，请你手写这个数字来教它！</p>
+
+                        <div class="teach-input-section">
+                            <div class="digit-selector">
+                                <label>你要教AI认识哪个数字？</label>
+                                <div class="digit-buttons" id="digitButtons">
+                                    <button class="digit-btn" data-digit="0">0</button>
+                                    <button class="digit-btn" data-digit="1">1</button>
+                                    <button class="digit-btn" data-digit="2">2</button>
+                                    <button class="digit-btn" data-digit="3">3</button>
+                                    <button class="digit-btn" data-digit="4">4</button>
+                                    <button class="digit-btn" data-digit="5">5</button>
+                                    <button class="digit-btn" data-digit="6">6</button>
+                                    <button class="digit-btn" data-digit="7">7</button>
+                                    <button class="digit-btn" data-digit="8">8</button>
+                                    <button class="digit-btn" data-digit="9">9</button>
+                                </div>
+                            </div>
+
+                            <div class="teach-canvas-section">
+                                <div class="canvas-frame small">
+                                    <span class="canvas-label">📝 画这个数字</span>
+                                    <div class="canvas-inner">
+                                        <canvas id="teachCanvas" width="200" height="200"></canvas>
+                                    </div>
+                                </div>
+                                <div class="teach-canvas-buttons">
+                                    <button class="btn btn-secondary" id="clearTeachBtn">🗑️ 清除</button>
+                                    <button class="btn btn-primary" id="submitTeachBtn" disabled>
+                                        📤 提交给AI学习
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sample-counter">
+                            <span class="counter-icon">📚</span>
+                            <span>已收集 <strong id="sampleCount">0</strong> 个训练样本</span>
+                        </div>
+
+                        <div class="step-buttons">
+                            <button class="btn btn-secondary" id="backToStep1Btn">⬅️ 上一步</button>
+                            <button class="btn btn-primary" id="goToStep3Btn" disabled>
+                                👉 去训练AI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤3：训练 -->
+                <div class="teach-panel" id="teachStep3" style="display: none;">
+                    <div class="teach-card">
+                        <h3><span class="emoji">🎯</span> 第三步：让AI学习！</h3>
+                        <p>AI会看你写的数字，然后调整自己的"大脑"来学会它！</p>
+
+                        <div class="training-info">
+                            <div class="training-stat">
+                                <span class="stat-icon">📊</span>
+                                <span>准备用 <strong id="trainingSampleCount">0</strong> 个样本训练</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary btn-large" id="startTrainBtn">
+                            🚀 开始训练AI！
+                        </button>
+
+                        <div class="training-progress" id="trainingProgress" style="display: none;">
+                            <div class="progress-animation">
+                                <div class="brain-training">🧠</div>
+                                <div class="training-text">AI正在学习中...</div>
+                            </div>
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar-fill" id="trainingProgressBar"></div>
+                            </div>
+                        </div>
+
+                        <div class="training-complete" id="trainingComplete" style="display: none;">
+                            <div class="complete-icon">🎉</div>
+                            <h4>训练完成！</h4>
+                            <p>AI已经学会了新东西，让我们来验证一下！</p>
+                            <button class="btn btn-primary" id="goToStep4Btn">
+                                👉 验证结果
+                            </button>
+                        </div>
+
+                        <div class="step-buttons">
+                            <button class="btn btn-secondary" id="backToStep2Btn">⬅️ 返回教学</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 步骤4：验证 -->
+                <div class="teach-panel" id="teachStep4" style="display: none;">
+                    <div class="teach-card">
+                        <h3><span class="emoji">✅</span> 第四步：验证AI学会了！</h3>
+                        <p>让我们看看AI现在能不能认对这个数字！</p>
+
+                        <div class="verification-section">
+                            <div class="verify-image-wrapper">
+                                <img id="verifyImage" src="" alt="验证数字">
+                            </div>
+
+                            <button class="btn btn-primary" id="verifyBtn">
+                                🔮 让AI再认一次
+                            </button>
+
+                            <div class="verify-result" id="verifyResult" style="display: none;">
+                                <div class="verify-comparison">
+                                    <div class="verify-before">
+                                        <h5>训练前</h5>
+                                        <div class="verify-answer wrong">
+                                            <span id="beforeAnswer">?</span>
+                                            <span class="verify-badge">❌</span>
+                                        </div>
+                                    </div>
+                                    <div class="verify-arrow">➡️</div>
+                                    <div class="verify-after">
+                                        <h5>训练后</h5>
+                                        <div class="verify-answer" id="afterAnswerBox">
+                                            <span id="afterAnswer">?</span>
+                                            <span class="verify-badge" id="afterBadge">?</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="verify-message" id="verifyMessage">
+                                    <!-- 动态填充 -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-buttons">
+                            <button class="btn btn-secondary" id="restartTeachBtn">🔄 重新开始</button>
+                            <button class="btn btn-primary" id="resetModelBtn">🔧 重置AI模型</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>使用 <a href="https://en.wikipedia.org/wiki/MNIST_database" target="_blank">MNIST 数据集</a> 和 PyTorch 构建 | 适合
+                8-12 岁小朋友的 AI 入门课程</p>
+        </footer>
+    </div>
+
+    <script>
+        // ========================================
+        // 背景粒子效果
+        // ========================================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#6366f1', '#ec4899', '#10b981', '#818cf8'];
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ========================================
+        // 画板功能
+        // ========================================
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const clearBtn = document.getElementById('clearBtn');
+        const predictBtn = document.getElementById('predictBtn');
+        const placeholder = document.getElementById('placeholder');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const predictedNumber = document.getElementById('predictedNumber');
+        const confidenceText = document.getElementById('confidenceText');
+        const confidenceFill = document.getElementById('confidenceFill');
+        const probGrid = document.getElementById('probGrid');
+
+        let isDrawing = false;
+        let hasDrawn = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // 初始化画板
+        function initCanvas() {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 18;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+        }
+
+        // 获取坐标
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        // 开始画
+        function startDraw(e) {
+            isDrawing = true;
+            hasDrawn = true;
+            const pos = getPos(e);
+            lastX = pos.x;
+            lastY = pos.y;
+
+            // 画一个点
+            ctx.beginPath();
+            ctx.arc(lastX, lastY, ctx.lineWidth / 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#000000';
+            ctx.fill();
+
+            e.preventDefault();
+        }
+
+        // 画线
+        function draw(e) {
+            if (!isDrawing) return;
+
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+
+            lastX = pos.x;
+            lastY = pos.y;
+            e.preventDefault();
+        }
+
+        // 停止画
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        // 清除画板
+        function clearCanvas() {
+            initCanvas();
+            hasDrawn = false;
+            placeholder.style.display = 'block';
+            resultDisplay.classList.remove('show');
+            confidenceFill.style.width = '0%';
+        }
+
+        // 发送预测请求
+        async function predict() {
+            if (!hasDrawn) {
+                alert('请先画一个数字！');
+                return;
+            }
+
+            predictBtn.disabled = true;
+            predictBtn.innerHTML = '<span class="loader"></span> 识别中...';
+
+            try {
+                const imageData = canvas.toDataURL('image/png');
+
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: imageData })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showResult(data);
+                } else {
+                    alert('识别失败: ' + data.error);
+                }
+            } catch (error) {
+                alert('请求失败: ' + error.message);
+            } finally {
+                predictBtn.disabled = false;
+                predictBtn.innerHTML = '🔮 让 AI 来认！';
+            }
+        }
+
+        // 显示结果
+        function showResult(data) {
+            placeholder.style.display = 'none';
+            resultDisplay.classList.add('show');
+
+            // 显示预测数字
+            predictedNumber.textContent = data.digit;
+            predictedNumber.style.animation = 'none';
+            predictedNumber.offsetHeight; // 触发重绘
+            predictedNumber.style.animation = 'pop-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+
+            // 显示置信度
+            const confidence = Math.round(data.confidence * 100);
+            confidenceText.textContent = confidence + '%';
+            setTimeout(() => {
+                confidenceFill.style.width = confidence + '%';
+            }, 100);
+
+            // 显示概率分布
+            probGrid.innerHTML = '';
+            data.probabilities.forEach((prob, digit) => {
+                const percent = Math.round(prob * 100);
+                const isActive = digit === data.digit;
+
+                const item = document.createElement('div');
+                item.className = 'prob-item';
+                item.innerHTML = `
+                    <div class="prob-digit ${isActive ? 'active' : ''}">${digit}</div>
+                    <div class="prob-bar-wrapper">
+                        <div class="prob-bar-fill ${isActive ? 'active' : ''}" style="height: 0%"></div>
+                    </div>
+                    <div class="prob-percent">${percent}%</div>
+                `;
+                probGrid.appendChild(item);
+            });
+
+            // 动画显示概率条
+            setTimeout(() => {
+                document.querySelectorAll('.prob-bar-fill').forEach((bar, i) => {
+                    bar.style.height = Math.round(data.probabilities[i] * 100) + '%';
+                });
+            }, 200);
+        }
+
+        // 事件绑定
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseleave', stopDraw);
+
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+
+        clearBtn.addEventListener('click', clearCanvas);
+        predictBtn.addEventListener('click', predict);
+
+        // 初始化
+        initCanvas();
+        console.log('🎨 AI 数字魔法师已就绪！');
+
+        // ========================================
+        // 🎓 教AI学习功能
+        // ========================================
+
+        // 教学相关的DOM元素
+        const findMistakeBtn = document.getElementById('findMistakeBtn');
+        const demoResult = document.getElementById('demoResult');
+        const demoImage = document.getElementById('demoImage');
+        const aiAnswer = document.getElementById('aiAnswer');
+        const correctAnswer = document.getElementById('correctAnswer');
+        const demoExplanation = document.getElementById('demoExplanation');
+        const goToStep2Btn = document.getElementById('goToStep2Btn');
+
+        const wrongDigitText = document.getElementById('wrongDigitText');
+        const digitButtons = document.getElementById('digitButtons');
+        const teachCanvas = document.getElementById('teachCanvas');
+        const clearTeachBtn = document.getElementById('clearTeachBtn');
+        const submitTeachBtn = document.getElementById('submitTeachBtn');
+        const sampleCount = document.getElementById('sampleCount');
+        const goToStep3Btn = document.getElementById('goToStep3Btn');
+        const backToStep1Btn = document.getElementById('backToStep1Btn');
+
+        const trainingSampleCount = document.getElementById('trainingSampleCount');
+        const startTrainBtn = document.getElementById('startTrainBtn');
+        const trainingProgress = document.getElementById('trainingProgress');
+        const trainingProgressBar = document.getElementById('trainingProgressBar');
+        const trainingComplete = document.getElementById('trainingComplete');
+        const goToStep4Btn = document.getElementById('goToStep4Btn');
+        const backToStep2Btn = document.getElementById('backToStep2Btn');
+
+        const verifyImage = document.getElementById('verifyImage');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const verifyResult = document.getElementById('verifyResult');
+        const beforeAnswer = document.getElementById('beforeAnswer');
+        const afterAnswer = document.getElementById('afterAnswer');
+        const afterAnswerBox = document.getElementById('afterAnswerBox');
+        const afterBadge = document.getElementById('afterBadge');
+        const verifyMessage = document.getElementById('verifyMessage');
+        const restartTeachBtn = document.getElementById('restartTeachBtn');
+        const resetModelBtn = document.getElementById('resetModelBtn');
+
+        // 教学状态
+        let teachingState = {
+            currentStep: 1,
+            demoData: null,
+            selectedDigit: null,
+            hasTeachDrawn: false,
+            collectCount: 0
+        };
+
+        // 教学画板上下文
+        const teachCtx = teachCanvas.getContext('2d');
+        let isTeachDrawing = false;
+        let lastTeachX = 0;
+        let lastTeachY = 0;
+
+        // 初始化教学画板
+        function initTeachCanvas() {
+            teachCtx.fillStyle = '#ffffff';
+            teachCtx.fillRect(0, 0, teachCanvas.width, teachCanvas.height);
+            teachCtx.strokeStyle = '#000000';
+            teachCtx.lineWidth = 12;
+            teachCtx.lineCap = 'round';
+            teachCtx.lineJoin = 'round';
+            teachingState.hasTeachDrawn = false;
+            updateSubmitBtn();
+        }
+
+        // 获取教学画板坐标
+        function getTeachPos(e) {
+            const rect = teachCanvas.getBoundingClientRect();
+            const scaleX = teachCanvas.width / rect.width;
+            const scaleY = teachCanvas.height / rect.height;
+
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        // 教学画板绑定事件
+        function startTeachDraw(e) {
+            isTeachDrawing = true;
+            teachingState.hasTeachDrawn = true;
+            const pos = getTeachPos(e);
+            lastTeachX = pos.x;
+            lastTeachY = pos.y;
+
+            teachCtx.beginPath();
+            teachCtx.arc(lastTeachX, lastTeachY, teachCtx.lineWidth / 2, 0, Math.PI * 2);
+            teachCtx.fillStyle = '#000000';
+            teachCtx.fill();
+
+            updateSubmitBtn();
+            e.preventDefault();
+        }
+
+        function teachDraw(e) {
+            if (!isTeachDrawing) return;
+
+            const pos = getTeachPos(e);
+            teachCtx.beginPath();
+            teachCtx.moveTo(lastTeachX, lastTeachY);
+            teachCtx.lineTo(pos.x, pos.y);
+            teachCtx.stroke();
+
+            lastTeachX = pos.x;
+            lastTeachY = pos.y;
+            e.preventDefault();
+        }
+
+        function stopTeachDraw() {
+            isTeachDrawing = false;
+        }
+
+        // 更新提交按钮状态
+        function updateSubmitBtn() {
+            submitTeachBtn.disabled = !(teachingState.hasTeachDrawn && teachingState.selectedDigit !== null);
+        }
+
+        // 更新步骤指示器
+        function updateStepIndicator(step) {
+            document.querySelectorAll('.step-item').forEach((item, idx) => {
+                item.classList.remove('active', 'completed');
+                if (idx + 1 < step) {
+                    item.classList.add('completed');
+                } else if (idx + 1 === step) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // 切换步骤面板
+        function showStep(step) {
+            teachingState.currentStep = step;
+            updateStepIndicator(step);
+
+            document.querySelectorAll('.teach-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            document.getElementById(`teachStep${step}`).style.display = 'block';
+        }
+
+        // 步骤1：发现AI的错误
+        findMistakeBtn.addEventListener('click', async () => {
+            findMistakeBtn.disabled = true;
+            findMistakeBtn.innerHTML = '<span class="loader"></span> 寻找中...';
+
+            try {
+                const response = await fetch('/get-demo-mistake');
+                const data = await response.json();
+
+                if (data.success) {
+                    teachingState.demoData = data;
+                    demoImage.src = data.image;
+                    aiAnswer.textContent = data.predicted_digit;
+                    correctAnswer.textContent = data.actual_digit;
+
+                    if (data.is_wrong) {
+                        demoExplanation.textContent = `AI把 ${data.actual_digit} 认成了 ${data.predicted_digit}！让我们来教它正确的答案。`;
+                        document.querySelector('.demo-answer.wrong .answer-badge').textContent = '❌ 错了';
+                    } else {
+                        demoExplanation.textContent = `AI虽然认对了，但信心只有 ${Math.round(data.confidence * 100)}%。我们可以教它更多例子让它更自信！`;
+                        document.querySelector('.demo-answer.wrong').classList.remove('wrong');
+                        document.querySelector('.demo-answer.wrong .answer-badge').textContent = '🤔 不太自信';
+                    }
+
+                    demoResult.style.display = 'flex';
+                } else {
+                    alert('获取样本失败：' + data.error);
+                }
+            } catch (error) {
+                alert('请求失败：' + error.message);
+            } finally {
+                findMistakeBtn.disabled = false;
+                findMistakeBtn.innerHTML = '🎲 找一个AI认错的数字';
+            }
+        });
+
+        // 前往步骤2
+        goToStep2Btn.addEventListener('click', () => {
+            if (teachingState.demoData) {
+                wrongDigitText.textContent = teachingState.demoData.actual_digit;
+                // 自动选中需要教的数字
+                const digit = teachingState.demoData.actual_digit;
+                document.querySelectorAll('.digit-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (parseInt(btn.dataset.digit) === digit) {
+                        btn.classList.add('active');
+                        teachingState.selectedDigit = digit;
+                    }
+                });
+            }
+            initTeachCanvas();
+            showStep(2);
+            loadSampleCount();
+        });
+
+        // 数字选择器
+        digitButtons.addEventListener('click', (e) => {
+            if (e.target.classList.contains('digit-btn')) {
+                document.querySelectorAll('.digit-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                teachingState.selectedDigit = parseInt(e.target.dataset.digit);
+                updateSubmitBtn();
+            }
+        });
+
+        // 清除教学画板
+        clearTeachBtn.addEventListener('click', () => {
+            initTeachCanvas();
+        });
+
+        // 提交手写数字给AI学习
+        submitTeachBtn.addEventListener('click', async () => {
+            if (!teachingState.hasTeachDrawn || teachingState.selectedDigit === null) {
+                alert('请先选择数字并画出来！');
+                return;
+            }
+
+            submitTeachBtn.disabled = true;
+            submitTeachBtn.innerHTML = '<span class="loader"></span> 提交中...';
+
+            try {
+                const imageData = teachCanvas.toDataURL('image/png');
+
+                const response = await fetch('/teach', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        image: imageData,
+                        label: teachingState.selectedDigit
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    teachingState.collectCount = data.sample_count;
+                    sampleCount.textContent = data.sample_count;
+                    trainingSampleCount.textContent = data.sample_count;
+
+                    // 清空画板准备写新的
+                    initTeachCanvas();
+
+                    // 启用去训练按钮
+                    goToStep3Btn.disabled = false;
+
+                    // 显示成功提示
+                    alert(`✅ ${data.message}`);
+                } else {
+                    alert('提交失败：' + data.error);
+                }
+            } catch (error) {
+                alert('请求失败：' + error.message);
+            } finally {
+                submitTeachBtn.disabled = false;
+                submitTeachBtn.innerHTML = '📤 提交给AI学习';
+                updateSubmitBtn();
+            }
+        });
+
+        // 加载样本数量
+        async function loadSampleCount() {
+            try {
+                const response = await fetch('/teaching-stats');
+                const data = await response.json();
+                sampleCount.textContent = data.sample_count;
+                trainingSampleCount.textContent = data.sample_count;
+                teachingState.collectCount = data.sample_count;
+                goToStep3Btn.disabled = data.sample_count === 0;
+            } catch (error) {
+                console.error('加载统计失败', error);
+            }
+        }
+
+        // 返回步骤1
+        backToStep1Btn.addEventListener('click', () => {
+            showStep(1);
+        });
+
+        // 前往步骤3
+        goToStep3Btn.addEventListener('click', () => {
+            showStep(3);
+            // 重置训练界面
+            startTrainBtn.style.display = 'inline-flex';
+            trainingProgress.style.display = 'none';
+            trainingComplete.style.display = 'none';
+        });
+
+        // 返回步骤2
+        backToStep2Btn.addEventListener('click', () => {
+            showStep(2);
+        });
+
+        // 开始训练
+        startTrainBtn.addEventListener('click', async () => {
+            startTrainBtn.style.display = 'none';
+            trainingProgress.style.display = 'block';
+            trainingProgressBar.style.width = '0%';
+
+            // 模拟进度动画
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 95) progress = 95;
+                trainingProgressBar.style.width = progress + '%';
+            }, 300);
+
+            try {
+                const response = await fetch('/quick-train', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await response.json();
+
+                clearInterval(progressInterval);
+                trainingProgressBar.style.width = '100%';
+
+                setTimeout(() => {
+                    trainingProgress.style.display = 'none';
+
+                    if (data.success) {
+                        trainingComplete.style.display = 'block';
+                    } else {
+                        alert('训练失败：' + data.error);
+                        startTrainBtn.style.display = 'inline-flex';
+                    }
+                }, 500);
+
+            } catch (error) {
+                clearInterval(progressInterval);
+                alert('请求失败：' + error.message);
+                trainingProgress.style.display = 'none';
+                startTrainBtn.style.display = 'inline-flex';
+            }
+        });
+
+        // 前往步骤4
+        goToStep4Btn.addEventListener('click', () => {
+            showStep(4);
+            // 设置验证图片
+            if (teachingState.demoData) {
+                verifyImage.src = teachingState.demoData.image;
+                beforeAnswer.textContent = teachingState.demoData.predicted_digit;
+            }
+            verifyResult.style.display = 'none';
+        });
+
+        // 验证AI是否学会了
+        verifyBtn.addEventListener('click', async () => {
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<span class="loader"></span> 验证中...';
+
+            try {
+                // 由于demo图片是base64格式，我们需要将其转换后发送
+                // 这里我们重新获取一个相同数字的样本来测试
+                const response = await fetch('/get-demo-mistake');
+                const data = await response.json();
+
+                if (data.success && teachingState.demoData) {
+                    // 显示验证结果
+                    verifyResult.style.display = 'block';
+
+                    const correctDigit = teachingState.demoData.actual_digit;
+                    const newPrediction = data.predicted_digit;
+
+                    afterAnswer.textContent = newPrediction;
+
+                    if (newPrediction === correctDigit) {
+                        afterAnswerBox.classList.remove('wrong');
+                        afterAnswerBox.classList.add('correct');
+                        afterBadge.textContent = '✅';
+                        verifyMessage.className = 'verify-message success';
+                        verifyMessage.innerHTML = `
+                            🎉 <strong>太棒了！AI学会了！</strong><br>
+                            通过你的教导，AI现在能正确识别这个数字了！
+                            这就是机器学习的力量！
+                        `;
+                    } else {
+                        afterAnswerBox.classList.remove('correct');
+                        afterAnswerBox.classList.add('wrong');
+                        afterBadge.textContent = '❌';
+                        verifyMessage.className = 'verify-message partial';
+                        verifyMessage.innerHTML = `
+                            🤔 <strong>AI还需要更多练习！</strong><br>
+                            可以回去多教它几个样本，或者用主画板多写几个数字让它识别。
+                            学习是需要时间的！
+                        `;
+                    }
+                } else {
+                    alert('验证失败：' + (data.error || '未知错误'));
+                }
+            } catch (error) {
+                alert('请求失败：' + error.message);
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '🔮 让AI再认一次';
+            }
+        });
+
+        // 重新开始教学
+        restartTeachBtn.addEventListener('click', () => {
+            teachingState = {
+                currentStep: 1,
+                demoData: null,
+                selectedDigit: null,
+                hasTeachDrawn: false,
+                collectCount: 0
+            };
+            demoResult.style.display = 'none';
+            showStep(1);
+        });
+
+        // 重置模型
+        resetModelBtn.addEventListener('click', async () => {
+            if (!confirm('确定要重置AI模型吗？这会清除所有你教给它的内容。')) {
+                return;
+            }
+
+            resetModelBtn.disabled = true;
+            resetModelBtn.innerHTML = '<span class="loader"></span> 重置中...';
+
+            try {
+                const response = await fetch('/reset-model', {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('✅ 模型已重置！');
+                    restartTeachBtn.click(); // 重新开始
+                } else {
+                    alert('重置失败：' + data.error);
+                }
+            } catch (error) {
+                alert('请求失败：' + error.message);
+            } finally {
+                resetModelBtn.disabled = false;
+                resetModelBtn.innerHTML = '🔧 重置AI模型';
+            }
+        });
+
+        // 教学画板事件绑定
+        teachCanvas.addEventListener('mousedown', startTeachDraw);
+        teachCanvas.addEventListener('mousemove', teachDraw);
+        teachCanvas.addEventListener('mouseup', stopTeachDraw);
+        teachCanvas.addEventListener('mouseleave', stopTeachDraw);
+
+        teachCanvas.addEventListener('touchstart', startTeachDraw, { passive: false });
+        teachCanvas.addEventListener('touchmove', teachDraw, { passive: false });
+        teachCanvas.addEventListener('touchend', stopTeachDraw);
+
+        // 初始化教学画板
+        initTeachCanvas();
+
+        console.log('👨‍🏫 教AI学习功能已就绪！');
+    </script>
+</body>
+
+</html>
