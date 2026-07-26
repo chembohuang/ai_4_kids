@@ -344,12 +344,15 @@ a {
 /*
   Full-bleed background chapters:
   children share the same content width as regular .section
-  (= section max-width minus horizontal padding).
+  (= section max-width minus horizontal padding), and stay centered.
 */
 .section-alt {
   max-width: none;
   padding-left: 0;
   padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: linear-gradient(180deg, rgba(217, 232, 239, 0.65), rgba(231, 240, 244, 0.2));
   border-block: 1px solid var(--line);
 }
@@ -364,6 +367,8 @@ a {
   margin-right: auto;
   padding-left: 0;
   padding-right: 0;
+  align-self: center;
+  flex-shrink: 0;
 }
 
 .section-head {
@@ -1077,16 +1082,21 @@ a {
 }
 
 .table-wrap {
+  display: block;
   overflow-x: auto;
-  margin: 1rem 0;
+  margin-block: 1rem;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 100%;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: var(--white);
+  box-sizing: border-box;
 }
 .compare-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 560px;
+  min-width: 0;
   font-size: 0.98rem;
 }
 .compare-table caption {
@@ -1115,11 +1125,29 @@ a {
 }
 
 .tip-box {
-  margin: 1rem 0 0;
+  margin-block: 1rem 0;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   padding: 1rem 1.15rem;
   background: rgba(240, 180, 41, 0.14);
   border-left: 4px solid var(--amber);
   border-radius: 0 12px 12px 0;
+}
+
+/* Ensure emergency card / tips inside alt chapters stay centered */
+.section-alt > .table-wrap,
+.section-alt > .tip-box,
+.section-alt > .flow-board {
+  width: min(
+    calc(100% - 2 * var(--section-pad-x)),
+    calc(var(--section-max) - 2 * var(--section-pad-x))
+  );
+  max-width: calc(var(--section-max) - 2 * var(--section-pad-x));
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
 }
 
 /* OS stack — same width as .os-grid below, centered via .section-alt > * */
