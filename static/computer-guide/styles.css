@@ -334,46 +334,41 @@ a {
 
 /* ---------- Sections ---------- */
 .section {
-  padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 4rem);
-  max-width: 1180px;
+  --section-pad-x: clamp(1.25rem, 4vw, 4rem);
+  --section-max: 1180px;
+  padding: clamp(3rem, 7vw, 5.5rem) var(--section-pad-x);
+  max-width: var(--section-max);
   margin: 0 auto;
 }
 
+/*
+  Full-bleed background chapters:
+  children share the same content width as regular .section
+  (= section max-width minus horizontal padding).
+*/
 .section-alt {
   max-width: none;
+  padding-left: 0;
+  padding-right: 0;
   background: linear-gradient(180deg, rgba(217, 232, 239, 0.65), rgba(231, 240, 244, 0.2));
   border-block: 1px solid var(--line);
 }
 .section-alt > * {
-  max-width: 1180px;
+  box-sizing: border-box;
+  width: min(
+    calc(100% - 2 * var(--section-pad-x)),
+    calc(var(--section-max) - 2 * var(--section-pad-x))
+  );
+  max-width: calc(var(--section-max) - 2 * var(--section-pad-x));
   margin-left: auto;
   margin-right: auto;
-}
-.section-alt > .section-head,
-.section-alt > .os-grid,
-.section-alt > .stack-3d,
-.section-alt > .flow-board,
-.section-alt > .gpu-lab,
-.section-alt > .city-map,
-.section-alt > .bonus-grid,
-.section-alt > .teach-steps,
-.section-alt > .net-journey,
-.section-alt > .net-basics,
-.section-alt > .game-net,
-.section-alt > .net-modes,
-.section-alt > .table-wrap,
-.section-alt > .tip-box,
-.section-alt > .win-lab,
-.section-alt > .win-skills,
-.section-alt > .win-shortcuts,
-.section-alt > .win-howto {
   padding-left: 0;
   padding-right: 0;
 }
 
 .section-head {
   margin-bottom: 2rem;
-  max-width: 46rem;
+  max-width: none;
 }
 .eyebrow {
   margin: 0 0 0.4rem;
@@ -395,6 +390,7 @@ a {
   margin: 0;
   color: var(--ink-soft);
   font-size: 1.05rem;
+  max-width: 46rem;
 }
 
 /* ---------- Workshop / 3D PC ---------- */
@@ -1132,7 +1128,8 @@ a {
   display: grid;
   gap: 0.65rem;
   margin: 0 0 2rem;
-  max-width: 640px;
+  width: 100%;
+  max-width: none;
 }
 .stack-layer {
   padding: 1rem 1.2rem;
@@ -1140,17 +1137,21 @@ a {
   color: white;
   font-weight: 700;
   font-family: var(--font-display);
-  transform: rotateX(12deg) skewX(-4deg);
+  transform: rotateX(8deg);
   box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12);
   animation: stack-in 0.7s both;
+}
+.stack-layer span {
+  display: block;
+  max-width: 52rem;
 }
 .stack-layer.l4 { background: #e4574c; animation-delay: 0.05s; }
 .stack-layer.l3 { background: #0b6e6e; animation-delay: 0.12s; }
 .stack-layer.l2 { background: #2f6f8f; animation-delay: 0.19s; }
 .stack-layer.l1 { background: #24333d; animation-delay: 0.26s; }
 @keyframes stack-in {
-  from { opacity: 0; transform: rotateX(12deg) skewX(-4deg) translateY(20px); }
-  to { opacity: 1; transform: rotateX(12deg) skewX(-4deg); }
+  from { opacity: 0; transform: rotateX(8deg) translateY(20px); }
+  to { opacity: 1; transform: rotateX(8deg); }
 }
 
 .os-grid {
