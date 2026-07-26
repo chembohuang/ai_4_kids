@@ -20,6 +20,7 @@
       <a href="#laptop">笔记本</a>
       <a href="#os">系统</a>
       <a href="#software">软件</a>
+      <a href="#binary">二进制</a>
       <a href="#gpu">显卡</a>
       <a href="#os-compare">Win vs Mac</a>
       <a href="#windows">Win入门</a>
@@ -355,7 +356,7 @@
 
       <div class="bits-panel">
         <h3>补充：电脑其实只懂 0 和 1</h3>
-        <p>所有软件最终都会变成二进制。开关通=1，断=0。字母、图片、音乐都是用很多个 0/1 编码出来的。</p>
+        <p>更完整的故事在下一节。你可以先输入一个字母，看它变成一串 0 和 1。</p>
         <div class="binary-demo" id="binary-demo">
           <label>输入一个字母看看：
             <input type="text" maxlength="1" value="A" id="bin-input" aria-label="输入一个字符" />
@@ -366,8 +367,114 @@
       </div>
     </section>
 
+    <!-- BINARY / 三生万物 -->
+    <section class="section section-alt" id="binary">
+      <div class="section-head">
+        <p class="eyebrow">延伸 · 二进制</p>
+        <h2>为什么电脑只存 0 和 1？</h2>
+        <p class="section-desc">不是电脑「笨」，而是物理世界里，最稳妥的信号往往只有两种状态。奇妙的是：就靠这两种状态，能拼出整个数字宇宙——很像中国古人说的「二生三，三生万物」。</p>
+      </div>
+
+      <div class="dao-quote" lang="zh-Hans">
+        <p class="dao-line">道生一，一生二，二生三，三生万物。</p>
+        <p class="dao-cite">——《道德经》第四十二章</p>
+        <p class="dao-gloss">「二」可以想成阴阳两仪：有/无、开/关、高/低。电脑里的 0 与 1，正是一对最简单的「两仪」。</p>
+      </div>
+
+      <div class="binary-why">
+        <article>
+          <h3>电路最喜欢「说清楚」</h3>
+          <p>芯片里是海量微型开关（晶体管）。电压高一点或低一点，用两种状态表示最不容易搞混：</p>
+          <ul class="check-list">
+            <li><strong>1</strong> ≈ 有电 / 开 / 高电平</li>
+            <li><strong>0</strong> ≈ 没电 / 关 / 低电平</li>
+          </ul>
+          <p>如果硬要存 0、1、2、3……很多档电压，噪声稍一大就会认错。两种状态最稳、最省事、也最好大规模制造。</p>
+        </article>
+        <article>
+          <h3>不是只能数到 1</h3>
+          <p>单个开关只能是 0 或 1；但<strong>很多个开关排在一起</strong>，就能表示很大的数、很复杂的信息。</p>
+          <ul class="check-list">
+            <li>1 位（bit）：2 种可能 —— 像一枚硬币正反面</li>
+            <li>2 位：00 01 10 11 —— 4 种</li>
+            <li>8 位（1 字节）：256 种 —— 够编码很多字母与符号</li>
+            <li>再多位：图片、音乐、游戏世界……</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="bit-build" aria-hidden="true">
+        <div class="bit-stage">
+          <div class="yin-yang" title="阴阳两仪 ≈ 0 与 1">
+            <span class="yy-zero">0</span>
+            <span class="yy-one">1</span>
+          </div>
+          <div class="bit-arrow">组合</div>
+          <div class="bit-bytes">
+            <div class="bit-row" id="bit-row">
+              <button type="button" class="bit-sw is-on" data-bit="0" aria-label="第1位">1</button>
+              <button type="button" class="bit-sw" data-bit="1" aria-label="第2位">0</button>
+              <button type="button" class="bit-sw" data-bit="2" aria-label="第3位">0</button>
+              <button type="button" class="bit-sw is-on" data-bit="3" aria-label="第4位">1</button>
+              <button type="button" class="bit-sw" data-bit="4" aria-label="第5位">0</button>
+              <button type="button" class="bit-sw" data-bit="5" aria-label="第6位">0</button>
+              <button type="button" class="bit-sw" data-bit="6" aria-label="第7位">0</button>
+              <button type="button" class="bit-sw is-on" data-bit="7" aria-label="第8位">1</button>
+            </div>
+            <p class="bit-readout"><span id="bit-binary">10010001</span> → 十进制 <strong id="bit-decimal">145</strong></p>
+            <p class="bit-hint">点上面的小开关，翻转 0 / 1，看数值怎么变</p>
+          </div>
+          <div class="bit-arrow">万物</div>
+          <div class="bit-world">
+            <span>文字</span>
+            <span>图片</span>
+            <span>音乐</span>
+            <span>游戏</span>
+            <span>视频</span>
+            <span>AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dao-map">
+        <article>
+          <strong>道生一</strong>
+          <p>先有「能表示信息」这件事——电流、开关、存储介质。</p>
+        </article>
+        <article>
+          <strong>一生二</strong>
+          <p>分出两种稳定状态：阴 / 阳，也就是 0 / 1。</p>
+        </article>
+        <article>
+          <strong>二生三</strong>
+          <p>规则出现了：怎么排列、怎么运算、怎么约定「01000001 = A」。</p>
+        </article>
+        <article>
+          <strong>三生万物</strong>
+          <p>约定 + 海量比特，生长出软件、网络、游戏和人工智能。</p>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>古人的两仪 × 电脑的比特</caption>
+          <thead>
+            <tr><th>中国传统意象</th><th>计算机里的对应</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>阴阳两仪</td><td>0 与 1 两种状态</td></tr>
+            <tr><td>爻的组合（如八卦）</td><td>多位比特的排列组合</td></tr>
+            <tr><td>三生万物</td><td>编码规则 + 海量比特 → 无穷信息</td></tr>
+            <tr><td>易有太极</td><td>再复杂的程序，底层仍是开关在翻转</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tip-box">跟孩子讲时可说：电脑并不是「只会数到 1」，而是「最擅长用最简单的两种积木」。积木只有两种，但搭法无穷——这就是二进制的力量，也是「三生万物」在硅片上的回响。</p>
+    </section>
+
     <!-- 6. GPU -->
-    <section class="section section-alt" id="gpu">
+    <section class="section" id="gpu">
       <div class="section-head">
         <p class="eyebrow">第 5 章</p>
         <h2>GPU 和显卡是什么？</h2>

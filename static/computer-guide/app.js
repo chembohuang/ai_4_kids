@@ -287,6 +287,29 @@
   binInput?.addEventListener("input", updateBinary);
   updateBinary();
 
+  /* ---------- Bit switch demo (三生万物) ---------- */
+  const bitRow = document.getElementById("bit-row");
+  const bitBinary = document.getElementById("bit-binary");
+  const bitDecimal = document.getElementById("bit-decimal");
+
+  function syncBitReadout() {
+    if (!bitRow || !bitBinary || !bitDecimal) return;
+    const bits = [...bitRow.querySelectorAll(".bit-sw")]
+      .map((btn) => (btn.classList.contains("is-on") ? "1" : "0"))
+      .join("");
+    bitBinary.textContent = bits;
+    bitDecimal.textContent = String(parseInt(bits, 2));
+  }
+
+  bitRow?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".bit-sw");
+    if (!btn) return;
+    btn.classList.toggle("is-on");
+    btn.textContent = btn.classList.contains("is-on") ? "1" : "0";
+    syncBitReadout();
+  });
+  syncBitReadout();
+
   /* ---------- Windows coach ---------- */
   const WIN_TOPICS = {
     start: {
@@ -782,6 +805,16 @@
       answer: 1,
       explain: "来源不明的安装包风险很高；商店与官网更安全。",
     },
+    {
+      q: "电脑底层为什么常用 0 和 1，而不是一次存很多种电压？",
+      options: [
+        "因为工程师只会数到 1",
+        "两种状态最稳、最不容易被噪声搞混，也最好大规模制造",
+        "国际规定不许用别的数字",
+      ],
+      answer: 1,
+      explain: "0/1 像阴阳两仪；组合起来就能「三生万物」，表示文字、图片和程序。",
+    },
   ];
 
   const quizRoot = document.getElementById("quiz-root");
@@ -839,7 +872,7 @@
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll(
-    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .gpu-lab, .vs-hero, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
+    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .dao-quote, .binary-why, .bit-build, .dao-map, .gpu-lab, .vs-hero, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
   );
   revealEls.forEach((el) => el.classList.add("reveal"));
   const io = new IntersectionObserver(
