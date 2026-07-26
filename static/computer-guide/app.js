@@ -831,6 +831,16 @@
       answer: 1,
       explain: "0/1 像阴阳两仪；组合起来就能「三生万物」，表示文字、图片和程序。",
     },
+    {
+      q: "关于造电脑的厂家，哪句更准确？",
+      options: [
+        "Windows 电脑和 Mac 都只能由微软生产",
+        "很多品牌都能做 Windows 电脑，但正版 Mac 基本上只有苹果一家",
+        "联想也可以合法预装 macOS 出售",
+      ],
+      answer: 1,
+      explain: "Windows 是「一家做系统，千家造电脑」；苹果是软硬件都只此一家。",
+    },
   ];
 
   const quizRoot = document.getElementById("quiz-root");
@@ -888,7 +898,7 @@
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll(
-    ".section-head, .workshop, .parts-atlas, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .dao-quote, .binary-why, .bit-build, .dao-map, .gpu-lab, .vs-hero, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
+    ".section-head, .workshop, .parts-atlas, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .dao-quote, .binary-why, .bit-build, .dao-map, .gpu-lab, .vs-hero, .vendor-eco, .vendor-grid, .apple-only, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
   );
   revealEls.forEach((el) => el.classList.add("reveal"));
   const io = new IntersectionObserver(
