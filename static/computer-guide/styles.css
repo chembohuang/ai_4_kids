@@ -362,7 +362,11 @@ a {
 .section-alt > .game-net,
 .section-alt > .net-modes,
 .section-alt > .table-wrap,
-.section-alt > .tip-box {
+.section-alt > .tip-box,
+.section-alt > .win-lab,
+.section-alt > .win-skills,
+.section-alt > .win-shortcuts,
+.section-alt > .win-howto {
   padding-left: 0;
   padding-right: 0;
 }
@@ -1597,7 +1601,448 @@ a {
   border-left-color: var(--teal);
 }
 
-/* ---------- Network chapter ---------- */
+/* ---------- Windows basics chapter ---------- */
+.win-lab {
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 1.15rem;
+  margin-bottom: 1.75rem;
+  align-items: stretch;
+}
+.win-desktop {
+  position: relative;
+  min-height: 420px;
+  border-radius: calc(var(--radius) + 6px);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(19, 32, 41, 0.2);
+  background: #0b3d5c;
+  color: #f3f6f8;
+  user-select: none;
+}
+.win-wallpaper {
+  position: absolute;
+  inset: 0 0 48px;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(80, 180, 220, 0.45), transparent 45%),
+    radial-gradient(ellipse at 80% 70%, rgba(20, 80, 140, 0.55), transparent 50%),
+    linear-gradient(160deg, #0a4a6e, #062638 55%, #0c3a55);
+}
+.win-icons {
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  display: grid;
+  gap: 10px;
+  z-index: 2;
+}
+.win-icon {
+  width: 76px;
+  border: 0;
+  background: transparent;
+  color: white;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.72rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+.win-icon:hover,
+.win-icon.is-active {
+  background: rgba(255, 255, 255, 0.16);
+}
+.wi-glyph {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+.wi-glyph.pc {
+  background:
+    linear-gradient(#2b2b2b 0 55%, #111 55% 100%);
+  border: 2px solid #ddd;
+}
+.wi-glyph.bin {
+  background: linear-gradient(180deg, #9ec9e8, #5a8fb5);
+  clip-path: polygon(20% 10%, 80% 10%, 90% 100%, 10% 100%);
+}
+.wi-glyph.folder {
+  background: linear-gradient(180deg, #f0c24b, #d59a12);
+  border-radius: 3px 10px 4px 4px;
+}
+.wi-glyph.edge {
+  background: conic-gradient(from 210deg, #1ec8ff, #0078d4, #174ae4, #1ec8ff);
+  border-radius: 50%;
+}
+
+.win-window {
+  position: absolute;
+  left: 16%;
+  top: 12%;
+  width: min(68%, 420px);
+  height: 58%;
+  background: #f3f3f3;
+  color: #1b1b1b;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 4;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+.win-window[hidden] { display: none !important; }
+.ww-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.7rem;
+  background: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e5e5;
+}
+.ww-controls {
+  display: flex;
+  gap: 6px;
+}
+.ww-controls i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ddd;
+  display: block;
+}
+.ww-controls i:nth-child(1) { background: #ff605c; }
+.ww-controls i:nth-child(2) { background: #ffbd44; }
+.ww-controls i:nth-child(3) { background: #00ca4e; }
+.ww-body {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+.ww-sidebar {
+  background: #ebebeb;
+  padding: 0.5rem;
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+}
+.ww-sidebar button {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 0.4rem 0.45rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+}
+.ww-sidebar button:hover { background: #dfeaf5; }
+.ww-files {
+  padding: 0.7rem;
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  background: #fff;
+}
+.ww-file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  background: transparent;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+}
+.ww-file:hover { background: #e8f2fb; }
+.fi {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.fi.doc { background: #2b579a; }
+.fi.zip { background: #c43e1c; }
+.fi.pic { background: #0b6e6e; }
+
+.win-start {
+  position: absolute;
+  left: 12px;
+  bottom: 56px;
+  width: min(280px, 70%);
+  background: rgba(32, 32, 32, 0.92);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 0.85rem;
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+.win-start[hidden] { display: none !important; }
+.ws-label {
+  margin: 0 0 0.45rem;
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+.ws-apps {
+  display: grid;
+  gap: 0.3rem;
+}
+.ws-apps button,
+.ws-power {
+  border: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: #f3f6f8;
+  text-align: left;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+}
+.ws-apps button:hover,
+.ws-power:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.ws-power {
+  margin-top: 0.55rem;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.win-taskbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.55rem;
+  background: rgba(24, 24, 24, 0.78);
+  backdrop-filter: blur(16px);
+  z-index: 6;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tb-start {
+  width: 40px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.tb-start:hover,
+.tb-start.is-open {
+  background: rgba(255, 255, 255, 0.12);
+}
+.win-squares.mini {
+  width: 18px;
+  height: 18px;
+  gap: 2px;
+}
+.tb-search {
+  flex: 1;
+  max-width: 220px;
+  height: 32px;
+  border: 0;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  text-align: left;
+  padding: 0 0.85rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+}
+.tb-pins,
+.tb-tray {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.tb-pin {
+  width: 36px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.tb-pin:hover { background: rgba(255, 255, 255, 0.12); }
+.pin-folder,
+.pin-web,
+.pin-gear,
+.pin-wifi,
+.pin-vol {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.pin-folder { background: #f0c24b; border-radius: 2px 5px 2px 2px; }
+.pin-web {
+  border: 2px solid #5eb1f5;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px transparent;
+  background: radial-gradient(circle at 30% 30%, #9ad4ff, #1a6fb5);
+}
+.pin-gear {
+  background: conic-gradient(#bbb 0 20%, transparent 20% 25%, #bbb 25% 45%, transparent 45% 50%, #bbb 50% 70%, transparent 70% 75%, #bbb 75% 95%, transparent 95% 100%);
+  border-radius: 50%;
+}
+.pin-wifi {
+  background: radial-gradient(circle at 50% 100%, #fff 0 2px, transparent 3px),
+    radial-gradient(circle at 50% 100%, transparent 0 5px, rgba(255,255,255,0.85) 5px 7px, transparent 8px),
+    radial-gradient(circle at 50% 100%, transparent 0 9px, rgba(255,255,255,0.55) 9px 11px, transparent 12px);
+}
+.pin-vol {
+  background: linear-gradient(90deg, #eee 0 40%, transparent 40%),
+    radial-gradient(circle at 30% 50%, transparent 0 4px, rgba(255,255,255,0.8) 5px 7px, transparent 8px);
+  border-radius: 2px;
+}
+.tb-clock {
+  border: 0;
+  background: transparent;
+  color: #f3f6f8;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.tb-clock:hover { background: rgba(255, 255, 255, 0.12); }
+
+.win-coach {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
+}
+.win-coach h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  margin: 0.35rem 0 0.55rem;
+}
+.win-coach p { color: var(--ink-soft); margin: 0 0 0.55rem; }
+
+.win-skills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.win-skills article,
+.win-howto article {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+}
+.win-skills h3,
+.win-howto h3,
+.win-shortcuts h3 {
+  font-family: var(--font-display);
+  margin: 0 0 0.7rem;
+}
+.win-skills code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(19, 32, 41, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.win-shortcuts {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  margin-bottom: 1.25rem;
+}
+.keys-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+}
+.keys-grid > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.65rem 0.7rem;
+  background: rgba(11, 110, 110, 0.06);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+.keys-grid span {
+  width: 100%;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #132029;
+  color: #e8f6f2;
+  padding: 0.18rem 0.4rem;
+  border-radius: 5px;
+  border-bottom: 2px solid #000;
+}
+
+.win-howto {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.win-howto ol {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--ink-soft);
+  display: grid;
+  gap: 0.4rem;
+}
+.win-howto code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(19, 32, 41, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+@media (max-width: 960px) {
+  .win-lab,
+  .win-skills,
+  .win-howto {
+    grid-template-columns: 1fr;
+  }
+  .keys-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .win-window {
+    left: 8%;
+    width: 84%;
+  }
+}
 .section-head.compact {
   margin-bottom: 1rem;
   max-width: none;

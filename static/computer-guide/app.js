@@ -287,6 +287,312 @@
   binInput?.addEventListener("input", updateBinary);
   updateBinary();
 
+  /* ---------- Windows coach ---------- */
+  const WIN_TOPICS = {
+    start: {
+      title: "开始菜单",
+      body: [
+        "点左下角 Windows 图标（或按键盘 Win 键）打开开始菜单。",
+        "这里可以搜索程序、打开设置，以及睡眠 / 关机 / 重启。",
+      ],
+      facts: [
+        ["快捷键", "Win"],
+        ["小技巧", "直接打字就能搜索"],
+      ],
+      window: false,
+      start: true,
+    },
+    search: {
+      title: "搜索",
+      body: [
+        "任务栏搜索框能找应用、设置和文件。",
+        "忘掉图标在哪时，搜名字往往最快。",
+      ],
+      facts: [
+        ["举例", "搜「设置」「画图」「作业」"],
+        ["快捷键", "Win 然后直接打字"],
+      ],
+      window: false,
+      start: false,
+    },
+    explorer: {
+      title: "文件资源管理器",
+      body: [
+        "资源管理器是 Windows 的「文件管家」：浏览磁盘、复制、重命名、删除。",
+        "左侧是常用位置，右侧是当前文件夹里的内容。",
+      ],
+      facts: [
+        ["快捷键", "Win + E"],
+        ["任务栏", "文件夹图标也可打开"],
+      ],
+      window: true,
+      start: false,
+    },
+    folder: {
+      title: "文件夹",
+      body: [
+        "文件夹用来分类存放文件，就像书包里的隔层。",
+        "建议为「语文」「数学」「兴趣」等分别建文件夹，别全堆在桌面。",
+      ],
+      facts: [
+        ["新建", "右键空白处 → 新建 → 文件夹"],
+        ["移动", "拖拽，或剪切后粘贴"],
+      ],
+      window: true,
+      start: false,
+    },
+    documents: {
+      title: "文档库",
+      body: [
+        "「文档」适合放作文、课件、报告等长期文件。",
+        "养成「做完作业立刻保存到文档」的习惯，比只放桌面更稳妥。",
+      ],
+      facts: [
+        ["后缀", ".docx / .pdf / .txt"],
+        ["口诀", "桌面临时，文档长期"],
+      ],
+      window: true,
+      start: false,
+    },
+    downloads: {
+      title: "下载文件夹",
+      body: [
+        "浏览器下载的文件默认进「下载」。",
+        "装软件前先看清楚是不是官网来源；装完把安装包删掉或归档，避免下载越堆越乱。",
+      ],
+      facts: [
+        ["小心", ".exe 安装包不要乱点"],
+        ["整理", "每周清一次下载"],
+      ],
+      window: true,
+      start: false,
+    },
+    "this-pc": {
+      title: "此电脑",
+      body: [
+        "「此电脑」能看到 C 盘、D 盘（如果有）和已连接的 U 盘。",
+        "系统多半在 C 盘；自己的大文件可以放其它盘或「文档」。",
+      ],
+      facts: [
+        ["C 盘", "通常装着 Windows"],
+        ["空间不足", "先清下载与回收站"],
+      ],
+      window: true,
+      start: false,
+    },
+    recycle: {
+      title: "回收站",
+      body: [
+        "删除的文件会先进入回收站，还能还原。",
+        "清空回收站后，一般就很难找回来了——清空前再确认一次。",
+      ],
+      facts: [
+        ["还原", "打开回收站 → 还原"],
+        ["彻底删除", "Shift + Delete（慎用）"],
+      ],
+      window: false,
+      start: false,
+    },
+    edge: {
+      title: "浏览器",
+      body: [
+        "Edge 是 Windows 自带浏览器，用来上网课、查资料、看视频。",
+        "也可以安装 Chrome / Firefox。记得分辨网址是不是 https，别随便下插件。",
+      ],
+      facts: [
+        ["新标签", "Ctrl + T"],
+        ["安全", "不点陌生短链接"],
+      ],
+      window: false,
+      start: false,
+    },
+    settings: {
+      title: "设置",
+      body: [
+        "「设置」是调电脑的控制台：网络、显示、声音、更新、账号都在这里。",
+        "换壁纸、连 Wi‑Fi、调亮度，几乎都能在设置里完成。",
+      ],
+      facts: [
+        ["快捷键", "Win + I"],
+        ["更新", "Windows 更新要定期检查"],
+      ],
+      window: false,
+      start: false,
+    },
+    store: {
+      title: "Microsoft Store",
+      body: [
+        "应用商店提供较安全的官方安装来源，适合装计算器、绘画、学习类应用。",
+        "大型游戏也常在 Steam 等平台安装——一样要认准正版。",
+      ],
+      facts: [
+        ["优点", "更新与卸载更省心"],
+        ["习惯", "能走商店就少下不明安装包"],
+      ],
+      window: false,
+      start: false,
+    },
+    taskmgr: {
+      title: "任务管理器",
+      body: [
+        "程序卡死时，用任务管理器结束它，而不用强制拔电源。",
+        "还能看到谁在吃 CPU、内存——电脑变慢时很有用。",
+      ],
+      facts: [
+        ["快捷键", "Ctrl + Shift + Esc"],
+        ["注意", "别结束你不认识的系统进程"],
+      ],
+      window: false,
+      start: false,
+    },
+    power: {
+      title: "电源选项",
+      body: [
+        "睡眠：快速休息，再开很快。关机：完全关掉。重启：很多小问题重启能好。",
+        "更新有时会要求重启——保存作业后再点。",
+      ],
+      facts: [
+        ["锁屏", "Win + L"],
+        ["强制重启", "仅在完全死机时考虑"],
+      ],
+      window: false,
+      start: false,
+    },
+    wifi: {
+      title: "网络图标",
+      body: [
+        "右下角可查看 Wi‑Fi / 以太网是否连通。",
+        "上不了网时，先看这里是不是断开，或是否开了飞行模式。",
+      ],
+      facts: [
+        ["家庭网", "连对家里 Wi‑Fi 名称"],
+        ["进阶", "设置 → 网络和 Internet"],
+      ],
+      window: false,
+      start: false,
+    },
+    sound: {
+      title: "音量",
+      body: [
+        "点喇叭图标可调系统音量，也能选耳机还是音箱输出。",
+        "听不到声音时：看是否静音、插对接口、是否选错播放设备。",
+      ],
+      facts: [
+        ["快捷键", "键盘音量键"],
+        ["会议", "提前测麦与扬声器"],
+      ],
+      window: false,
+      start: false,
+    },
+    clock: {
+      title: "时间与日历",
+      body: [
+        "右下角显示时间，点开可看日历。",
+        "时间不对会影响网站登录和证书校验——通常开着「自动设置时间」即可。",
+      ],
+      facts: [
+        ["设置", "日期和时间"],
+        ["专注", "也可在这里看通知"],
+      ],
+      window: false,
+      start: false,
+    },
+  };
+
+  const winStart = document.getElementById("win-start");
+  const winWindow = document.getElementById("win-window");
+  const wwTitle = document.getElementById("ww-title");
+  const tbStart = document.getElementById("tb-start");
+  const winCoachTitle = document.getElementById("win-coach-title");
+  const winCoachBody = document.getElementById("win-coach-body");
+  const winCoachFacts = document.getElementById("win-coach-facts");
+  const tbClock = document.getElementById("tb-clock");
+
+  function tickWinClock() {
+    if (!tbClock) return;
+    const now = new Date();
+    tbClock.textContent = now.toLocaleTimeString("zh-CN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+  tickWinClock();
+  setInterval(tickWinClock, 30000);
+
+  function showWinTopic(key, { keepStart } = {}) {
+    const data = WIN_TOPICS[key];
+    if (!data) return;
+
+    if (winCoachTitle) winCoachTitle.textContent = data.title;
+    if (winCoachBody) {
+      winCoachBody.innerHTML = data.body.map((p) => `<p>${p}</p>`).join("");
+    }
+    if (winCoachFacts) {
+      winCoachFacts.innerHTML = data.facts
+        .map(([k, v]) => `<li><strong>${k}</strong>${v}</li>`)
+        .join("");
+    }
+
+    document.querySelectorAll(".win-icon").forEach((el) => {
+      el.classList.toggle("is-active", el.dataset.win === key);
+    });
+
+    const fromStartMenu = ["settings", "store", "taskmgr", "power", "edge", "explorer"];
+    if (key === "start" || (keepStart && fromStartMenu.includes(key))) {
+      winStart?.removeAttribute("hidden");
+      tbStart?.classList.add("is-open");
+    } else if (!fromStartMenu.includes(key)) {
+      winStart?.setAttribute("hidden", "");
+      tbStart?.classList.remove("is-open");
+    }
+
+    if (data.window || ["folder", "documents", "downloads", "this-pc", "explorer"].includes(key)) {
+      winWindow?.removeAttribute("hidden");
+      if (wwTitle) {
+        wwTitle.textContent =
+          key === "explorer" ? "文件资源管理器" : `文件资源管理器 · ${data.title}`;
+      }
+    } else {
+      winWindow?.setAttribute("hidden", "");
+    }
+  }
+
+  document.getElementById("win-desktop")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-win]");
+    if (!btn) {
+      if (e.target.classList.contains("win-wallpaper") || e.target.id === "win-desktop") {
+        winStart?.setAttribute("hidden", "");
+        tbStart?.classList.remove("is-open");
+      }
+      return;
+    }
+    const key = btn.dataset.win;
+    if (key === "start") {
+      const opening = winStart?.hasAttribute("hidden");
+      if (opening) {
+        winStart?.removeAttribute("hidden");
+        tbStart?.classList.add("is-open");
+        showWinTopic("start");
+      } else {
+        winStart?.setAttribute("hidden", "");
+        tbStart?.classList.remove("is-open");
+      }
+      return;
+    }
+    const keepStart = Boolean(e.target.closest("#win-start"));
+    showWinTopic(key, { keepStart });
+  });
+
+  if (winCoachTitle) winCoachTitle.textContent = "点桌面上的图标试试";
+  if (winCoachBody) {
+    winCoachBody.innerHTML =
+      "<p>左侧是简化版 Windows 11 桌面。可以从「开始」、任务栏或桌面图标入手。</p>";
+  }
+  if (winCoachFacts) winCoachFacts.innerHTML = "";
+  winStart?.setAttribute("hidden", "");
+  tbStart?.classList.remove("is-open");
+  winWindow?.setAttribute("hidden", "");
+
   /* ---------- Game network demo ---------- */
   const pingRange = document.getElementById("ping-range");
   const pingOut = document.getElementById("ping-out");
@@ -460,6 +766,22 @@
       answer: 2,
       explain: "消息飞得慢，大家看到的世界就会对不齐。",
     },
+    {
+      q: "Windows 里想快速打开文件资源管理器，常用快捷键是？",
+      options: ["Ctrl + C", "Win + E", "Alt + F4"],
+      answer: 1,
+      explain: "Win + E 打开资源管理器；Win + I 是设置，Win + L 是锁屏。",
+    },
+    {
+      q: "网上下载的安装包，更稳妥的做法是？",
+      options: [
+        "任何 .exe 都双击安装",
+        "尽量走官网或 Microsoft Store，并注意有没有捆绑软件",
+        "直接删掉 System32 腾地方",
+      ],
+      answer: 1,
+      explain: "来源不明的安装包风险很高；商店与官网更安全。",
+    },
   ];
 
   const quizRoot = document.getElementById("quiz-root");
@@ -517,7 +839,7 @@
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll(
-    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .gpu-lab, .vs-hero, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
+    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .gpu-lab, .vs-hero, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
   );
   revealEls.forEach((el) => el.classList.add("reveal"));
   const io = new IntersectionObserver(

@@ -22,6 +22,7 @@
       <a href="#software">软件</a>
       <a href="#gpu">显卡</a>
       <a href="#os-compare">Win vs Mac</a>
+      <a href="#windows">Win入门</a>
       <a href="#network">网络</a>
       <a href="#bonus">更多</a>
     </nav>
@@ -519,10 +520,190 @@
       </div>
     </section>
 
-    <!-- NETWORK -->
-    <section class="section section-alt" id="network">
+    <!-- WINDOWS BASICS -->
+    <section class="section section-alt" id="windows">
       <div class="section-head">
         <p class="eyebrow">第 7 章</p>
+        <h2>Windows 使用入门</h2>
+        <p class="section-desc">认识桌面、开始菜单、文件和快捷键。下面有一台「迷你 Windows」可以点着玩——点哪里，右边就会出现讲解。</p>
+      </div>
+
+      <div class="win-lab">
+        <div class="win-desktop" id="win-desktop" role="application" aria-label="Windows 桌面示意">
+          <div class="win-wallpaper" aria-hidden="true"></div>
+
+          <div class="win-icons">
+            <button type="button" class="win-icon" data-win="this-pc" aria-label="此电脑">
+              <span class="wi-glyph pc"></span>
+              <span>此电脑</span>
+            </button>
+            <button type="button" class="win-icon" data-win="recycle" aria-label="回收站">
+              <span class="wi-glyph bin"></span>
+              <span>回收站</span>
+            </button>
+            <button type="button" class="win-icon" data-win="folder" aria-label="我的作业">
+              <span class="wi-glyph folder"></span>
+              <span>我的作业</span>
+            </button>
+            <button type="button" class="win-icon" data-win="edge" aria-label="浏览器">
+              <span class="wi-glyph edge"></span>
+              <span>浏览器</span>
+            </button>
+          </div>
+
+          <div class="win-window is-open" id="win-window" data-win-panel="explorer" hidden>
+            <div class="ww-titlebar">
+              <span id="ww-title">文件资源管理器</span>
+              <div class="ww-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+            <div class="ww-body" id="ww-body">
+              <aside class="ww-sidebar">
+                <button type="button" data-win="folder">桌面</button>
+                <button type="button" data-win="downloads">下载</button>
+                <button type="button" data-win="documents">文档</button>
+                <button type="button" data-win="this-pc">此电脑</button>
+              </aside>
+              <div class="ww-files">
+                <button type="button" class="ww-file" data-win="documents"><span class="fi doc"></span>作文.docx</button>
+                <button type="button" class="ww-file" data-win="downloads"><span class="fi zip"></span>安装包.exe</button>
+                <button type="button" class="ww-file" data-win="folder"><span class="fi pic"></span>截图.png</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="win-start" id="win-start" hidden>
+            <p class="ws-label">已固定</p>
+            <div class="ws-apps">
+              <button type="button" data-win="settings">设置</button>
+              <button type="button" data-win="edge">Microsoft Edge</button>
+              <button type="button" data-win="store">Microsoft Store</button>
+              <button type="button" data-win="explorer">文件资源管理器</button>
+              <button type="button" data-win="taskmgr">任务管理器</button>
+            </div>
+            <button type="button" class="ws-power" data-win="power">电源：睡眠 / 关机 / 重启</button>
+          </div>
+
+          <div class="win-taskbar">
+            <button type="button" class="tb-start" id="tb-start" data-win="start" aria-label="开始菜单" title="开始">
+              <span class="win-squares mini"><i></i><i></i><i></i><i></i></span>
+            </button>
+            <button type="button" class="tb-search" data-win="search" aria-label="搜索">搜索应用、文件…</button>
+            <div class="tb-pins">
+              <button type="button" class="tb-pin" data-win="explorer" title="资源管理器" aria-label="资源管理器"><span class="pin-folder"></span></button>
+              <button type="button" class="tb-pin" data-win="edge" title="浏览器" aria-label="浏览器"><span class="pin-web"></span></button>
+              <button type="button" class="tb-pin" data-win="settings" title="设置" aria-label="设置"><span class="pin-gear"></span></button>
+            </div>
+            <div class="tb-tray">
+              <button type="button" class="tb-pin" data-win="wifi" title="网络" aria-label="网络"><span class="pin-wifi"></span></button>
+              <button type="button" class="tb-pin" data-win="sound" title="音量" aria-label="音量"><span class="pin-vol"></span></button>
+              <button type="button" data-win="clock" class="tb-clock" id="tb-clock">12:00</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="win-coach" id="win-coach" aria-live="polite">
+          <p class="panel-kicker">Windows 教练</p>
+          <h3 id="win-coach-title">点桌面上的图标试试</h3>
+          <div id="win-coach-body">
+            <p>左侧是简化版 Windows 11 桌面。可以从「开始」、任务栏或桌面图标入手。</p>
+          </div>
+          <ul class="part-facts" id="win-coach-facts"></ul>
+        </aside>
+      </div>
+
+      <div class="win-skills">
+        <article>
+          <h3>每天都会用到</h3>
+          <ul class="check-list">
+            <li><strong>开始菜单</strong>：左下角 Windows 图标，找程序、关机</li>
+            <li><strong>任务栏</strong>：正在运行的程序排在这里，点一下可切换</li>
+            <li><strong>文件资源管理器</strong>：管文件夹与文件（作业、下载、图片）</li>
+            <li><strong>设置</strong>：Wi‑Fi、蓝牙、显示、更新、账号</li>
+            <li><strong>通知中心 / 快捷设置</strong>：右下角，可开关 Wi‑Fi、夜间模式等</li>
+          </ul>
+        </article>
+        <article>
+          <h3>文件怎么放才不乱</h3>
+          <ul class="check-list">
+            <li>作业放「文档」或自己建的「我的作业」文件夹</li>
+            <li>网上下的东西先进「下载」，整理后再搬走</li>
+            <li>重要文件不要只放桌面——桌面乱了也难找</li>
+            <li>删除的文件先进「回收站」，清空才真正消失</li>
+            <li>学会看后缀：<code>.docx</code> 文档、<code>.png</code> 图片、<code>.exe</code> 安装程序（要小心）</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="win-shortcuts">
+        <h3>超级好用的快捷键</h3>
+        <div class="keys-grid">
+          <div><kbd>Ctrl</kbd>+<kbd>C</kbd><span>复制</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>V</kbd><span>粘贴</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>Z</kbd><span>撤销</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>S</kbd><span>保存</span></div>
+          <div><kbd>Alt</kbd>+<kbd>Tab</kbd><span>切换窗口</span></div>
+          <div><kbd>Win</kbd>+<kbd>D</kbd><span>显示桌面</span></div>
+          <div><kbd>Win</kbd>+<kbd>E</kbd><span>打开资源管理器</span></div>
+          <div><kbd>Win</kbd>+<kbd>I</kbd><span>打开设置</span></div>
+          <div><kbd>Win</kbd>+<kbd>L</kbd><span>锁定电脑</span></div>
+          <div><kbd>Win</kbd>+<kbd>Tab</kbd><span>多桌面 / 任务视图</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Esc</kbd><span>任务管理器</span></div>
+          <div><kbd>Win</kbd>+<kbd>PrtSc</kbd><span>截图保存</span></div>
+        </div>
+      </div>
+
+      <div class="win-howto">
+        <article>
+          <h3>安装软件（正规路径）</h3>
+          <ol>
+            <li>打开 <strong>Microsoft Store</strong>（应用商店），或去官网下载</li>
+            <li>只运行你信任的 <code>.exe</code> / <code>.msi</code> 安装包</li>
+            <li>按提示「下一步」，注意有没有捆绑其它软件</li>
+            <li>装好后可在开始菜单找到它，也可固定到任务栏</li>
+          </ol>
+        </article>
+        <article>
+          <h3>卸载软件</h3>
+          <ol>
+            <li>打开「设置」→「应用」→「已安装的应用」</li>
+            <li>找到程序 → 卸载</li>
+            <li>不要随手删安装文件夹当卸载——容易留垃圾或弄坏系统</li>
+          </ol>
+        </article>
+        <article>
+          <h3>更新与安全</h3>
+          <ol>
+            <li>「设置」→「Windows 更新」：保持更新</li>
+            <li>Windows 安全中心：防火墙与病毒防护默认打开</li>
+            <li>每个账号自己的密码；公用电脑用完锁定（Win+L）</li>
+            <li>陌生邮件附件、破解版游戏：高风险，别点</li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>卡住了怎么办？（急救卡）</caption>
+          <thead>
+            <tr><th>现象</th><th>可以试什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>某个窗口没响应</td><td>Ctrl+Shift+Esc 打开任务管理器 → 结束该任务</td></tr>
+            <tr><td>整台电脑很卡</td><td>看任务管理器谁占 CPU/内存；关掉不用的网页和程序</td></tr>
+            <tr><td>上不了网</td><td>检查右下角 Wi‑Fi；重启路由器；飞行模式是否打开</td></tr>
+            <tr><td>找不到文件</td><td>任务栏搜索框输入文件名；或看「下载」「文档」</td></tr>
+            <tr><td>还是不行</td><td>保存作业后重启；仍不行再找家长协助</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tip-box">练习任务：新建文件夹「我的作业」→ 把桌面上的练习文件拖进去 → 用 Win+E 再找一遍。熟练之后，Windows 就像自己的书桌一样好用。</p>
+    </section>
+
+    <!-- NETWORK -->
+    <section class="section" id="network">
+      <div class="section-head">
+        <p class="eyebrow">第 8 章</p>
         <h2>网络通信：电脑怎么和远方说话？</h2>
         <p class="section-desc">上网、看视频、打联机游戏，本质都是：把数据拆成小包裹（数据包），沿着线路送到正确的地址，再拼回来。</p>
       </div>
@@ -699,7 +880,7 @@
         </article>
         <article class="bonus-card">
           <h3>想了解上网细节？</h3>
-          <p>数据包、Ping、联机游戏通信，已经写进 <a href="#network">第 7 章 · 网络通信</a>。可以和打游戏时的延迟一起对照着看。</p>
+          <p>数据包、Ping、联机游戏通信，已经写进 <a href="#network">第 8 章 · 网络通信</a>。可以和打游戏时的延迟一起对照着看。</p>
         </article>
         <article class="bonus-card">
           <h3>输入设备与输出设备</h3>
@@ -745,7 +926,8 @@
         <li>先玩第 1 章 3D 拆机，建立「零件地图」，不要一上来背名词。</li>
         <li>用「城市比喻」串起来，再回到真实名字。</li>
         <li>打开家里的任务管理器 / 活动监视器，看 CPU、内存占用——把抽象变成屏幕上的数字。</li>
-        <li>打一局联机游戏时打开 Ping 显示，对照第 7 章讲「消息怎么飞」。</li>
+        <li>打开第 7 章迷你 Windows，一起练：建文件夹、用搜索、认快捷键。</li>
+        <li>打一局联机游戏时打开 Ping 显示，对照第 8 章讲「消息怎么飞」。</li>
         <li>对比家里的手机、平板、电脑：都是计算机，只是形态不同。</li>
         <li>若他想继续：装一个 Ubuntu 虚拟机，或一起看机箱（断电！），或回到本仓库的 AI 数字识别项目。</li>
       </ol>
