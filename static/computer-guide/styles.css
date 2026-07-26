@@ -502,7 +502,12 @@ a {
   background: linear-gradient(160deg, #2b404c, #17232b);
   border: 1px solid rgba(127, 211, 193, 0.22);
 }
-.part.case .f-front { width: 220px; height: 300px; transform: translateZ(55px); background: linear-gradient(90deg, #1a2a33 60%, rgba(127,211,193,0.08)); }
+.part.case .f-front {
+  width: 220px;
+  height: 300px;
+  transform: translateZ(55px);
+  background: linear-gradient(90deg, rgba(26, 42, 51, 0.55) 55%, rgba(127, 211, 193, 0.08));
+}
 .part.case .f-back { width: 220px; height: 300px; transform: rotateY(180deg) translateZ(55px); }
 .part.case .f-left { width: 110px; height: 300px; left: 55px; transform: rotateY(-90deg) translateZ(110px); }
 .part.case .f-right {
@@ -512,9 +517,6 @@ a {
 .part.case .f-right.glass {
   background: linear-gradient(135deg, rgba(180, 220, 230, 0.08), rgba(20, 40, 50, 0.12));
   border: 1px solid rgba(200, 240, 255, 0.3);
-}
-.part.case .f-front {
-  background: linear-gradient(90deg, rgba(26, 42, 51, 0.55) 55%, rgba(127, 211, 193, 0.08));
 }
 .part.case .f-top { width: 220px; height: 110px; top: 95px; transform: rotateX(90deg) translateZ(150px); }
 .part.case .f-bottom { width: 220px; height: 110px; top: 95px; transform: rotateX(-90deg) translateZ(150px); background: #0d171d; }
