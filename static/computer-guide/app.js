@@ -287,6 +287,111 @@
   binInput?.addEventListener("input", updateBinary);
   updateBinary();
 
+  /* ---------- Game network demo ---------- */
+  const pingRange = document.getElementById("ping-range");
+  const pingOut = document.getElementById("ping-out");
+  const packetLayer = document.getElementById("packet-layer");
+  const gameStage = document.getElementById("game-stage");
+  const gameLog = document.getElementById("game-log");
+  const friendStatus = document.getElementById("friend-status");
+  const youAv = document.querySelector(".you-av");
+  const friendAv = document.querySelector(".friend-av");
+  const serverBox = document.querySelector(".server-box");
+
+  function currentPing() {
+    return Number(pingRange?.value || 60);
+  }
+
+  function syncPingLabel() {
+    if (pingOut) pingOut.textContent = `${currentPing()} ms`;
+  }
+  pingRange?.addEventListener("input", syncPingLabel);
+  syncPingLabel();
+
+  function nodeCenter(el) {
+    if (!gameStage || !el) return { x: 0, y: 0 };
+    const stage = gameStage.getBoundingClientRect();
+    const box = el.getBoundingClientRect();
+    return {
+      x: box.left - stage.left + box.width / 2,
+      y: box.top - stage.top + box.height / 2,
+    };
+  }
+
+  function flyPacket(label, fromEl, toEl, delay, onDone) {
+    if (!packetLayer) {
+      onDone?.();
+      return;
+    }
+    const from = nodeCenter(fromEl);
+    const to = nodeCenter(toEl);
+    const el = document.createElement("div");
+    el.className = "fly-pkt";
+    el.textContent = label;
+    el.style.left = `${from.x}px`;
+    el.style.top = `${from.y}px`;
+    packetLayer.appendChild(el);
+
+    const duration = Math.max(180, delay);
+    const anim = el.animate(
+      [
+        { left: `${from.x}px`, top: `${from.y}px`, opacity: 0.2, offset: 0 },
+        { opacity: 1, offset: 0.15 },
+        { left: `${to.x}px`, top: `${to.y}px`, opacity: 1, offset: 1 },
+      ],
+      { duration, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)", fill: "forwards" }
+    );
+    anim.onfinish = () => {
+      el.remove();
+      onDone?.();
+    };
+  }
+
+  function flash(el) {
+    if (!el) return;
+    el.classList.add("is-flash");
+    setTimeout(() => el.classList.remove("is-flash"), 350);
+  }
+
+  function runGameEvent(kind) {
+    const ping = currentPing();
+    const half = Math.round(ping / 2);
+    const outbound = kind === "fire" ? "射击请求" : "移动坐标";
+    const inbound = kind === "fire" ? "命中广播" : "位置同步";
+
+    if (gameLog) {
+      gameLog.textContent = `已发出「${outbound}」……（单程约 ${half} ms，往返约 ${ping} ms）`;
+    }
+    if (friendStatus) friendStatus.textContent = "消息飞行中…";
+    flash(youAv);
+
+    flyPacket(outbound, youAv, serverBox, half, () => {
+      flash(serverBox);
+      if (gameLog) {
+        gameLog.textContent =
+          kind === "fire"
+            ? "服务器判定：命中！正在广播给所有客户端…"
+            : "服务器更新世界坐标，正在同步给队友…";
+      }
+      flyPacket(inbound, serverBox, friendAv, half, () => {
+        flash(friendAv);
+        if (friendStatus) {
+          friendStatus.textContent =
+            kind === "fire" ? "看到你开枪 / 掉血！" : "看到你移动了";
+        }
+        if (gameLog) {
+          gameLog.textContent =
+            ping >= 180
+              ? `完成。延迟 ${ping} ms 偏高——队友会感觉你「慢半拍」或瞬移。`
+              : `完成。延迟 ${ping} ms，大家看到的世界比较同步。`;
+        }
+      });
+    });
+  }
+
+  document.getElementById("btn-fire")?.addEventListener("click", () => runGameEvent("fire"));
+  document.getElementById("btn-move")?.addEventListener("click", () => runGameEvent("move"));
+
   /* ---------- Quiz ---------- */
   const QUIZ = [
     {
@@ -334,6 +439,26 @@
       ],
       answer: 1,
       explain: "先自检与引导，桌面出现后你才能登录使用。",
+    },
+    {
+      q: "联机游戏里，谁通常负责判定「打没打中」更公平？",
+      options: [
+        "只相信你自己电脑上的结果",
+        "游戏服务器当裁判，再广播给大家",
+        "由网线自己决定",
+      ],
+      answer: 1,
+      explain: "客户端–服务器模式下，服务器掌握权威世界状态，更难作弊。",
+    },
+    {
+      q: "Ping / 延迟变高时，联机游戏常常会出现？",
+      options: [
+        "显卡突然升级",
+        "操作更跟手、画面更清晰",
+        "卡顿、瞬移、打不准等不同步现象",
+      ],
+      answer: 2,
+      explain: "消息飞得慢，大家看到的世界就会对不齐。",
     },
   ];
 
@@ -392,7 +517,7 @@
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll(
-    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .gpu-lab, .vs-hero, .bonus-card, .quiz-item, .teach-steps li"
+    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .gpu-lab, .vs-hero, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
   );
   revealEls.forEach((el) => el.classList.add("reveal"));
   const io = new IntersectionObserver(

@@ -22,6 +22,7 @@
       <a href="#software">软件</a>
       <a href="#gpu">显卡</a>
       <a href="#os-compare">Win vs Mac</a>
+      <a href="#network">网络</a>
       <a href="#bonus">更多</a>
     </nav>
     <button class="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false">
@@ -518,8 +519,162 @@
       </div>
     </section>
 
+    <!-- NETWORK -->
+    <section class="section section-alt" id="network">
+      <div class="section-head">
+        <p class="eyebrow">第 7 章</p>
+        <h2>网络通信：电脑怎么和远方说话？</h2>
+        <p class="section-desc">上网、看视频、打联机游戏，本质都是：把数据拆成小包裹（数据包），沿着线路送到正确的地址，再拼回来。</p>
+      </div>
+
+      <div class="net-journey" aria-hidden="true">
+        <div class="net-road">
+          <div class="net-node">
+            <div class="net-icon you">你</div>
+            <span>你家电脑</span>
+          </div>
+          <div class="net-wire"><i class="pkt"></i></div>
+          <div class="net-node">
+            <div class="net-icon router">路由</div>
+            <span>路由器</span>
+          </div>
+          <div class="net-wire"><i class="pkt d2"></i></div>
+          <div class="net-node">
+            <div class="net-icon isp">运营商</div>
+            <span>互联网</span>
+          </div>
+          <div class="net-wire"><i class="pkt d3"></i></div>
+          <div class="net-node">
+            <div class="net-icon server">服</div>
+            <span>远端服务器</span>
+          </div>
+        </div>
+        <p class="net-caption">数据包像快递：写上「寄件人 / 收件人 IP」，一站一站转发，迟到或弄丢了可能要重寄。</p>
+      </div>
+
+      <div class="net-basics">
+        <article>
+          <h3>三个必须记住的词</h3>
+          <ul class="check-list">
+            <li><strong>IP 地址</strong>：电脑在网上的门牌号，例如 <code>203.0.113.10</code></li>
+            <li><strong>端口</strong>：同一台电脑上不同「窗口」——网页常走 443，游戏另有自己的端口</li>
+            <li><strong>延迟 / Ping</strong>：一来一回要多久；越低越跟手，打竞技很敏感</li>
+          </ul>
+        </article>
+        <article>
+          <h3>打开网页时发生了什么？</h3>
+          <ol class="flow-steps net-steps">
+            <li><b>1</b><span>DNS：把「baidu.com」翻译成 IP</span></li>
+            <li><b>2</b><span>连上服务器，建立加密通道（HTTPS）</span></li>
+            <li><b>3</b><span>请求网页文件，拆成很多数据包运回</span></li>
+            <li><b>4</b><span>浏览器拼起来，显示给你看</span></li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="game-net">
+        <div class="section-head compact">
+          <h3>联机游戏是怎么通信的？</h3>
+          <p class="section-desc">大多数网络游戏用「客户端 + 服务器」模式：你的电脑负责画面，服务器负责「谁说了算」——避免有人偷偷改血量作弊。</p>
+        </div>
+
+        <div class="game-lab">
+          <div class="game-stage" id="game-stage" aria-label="联机游戏示意">
+            <div class="player-slot p-you">
+              <div class="avatar you-av">你</div>
+              <p>客户端 A<br /><small>正在开枪</small></p>
+            </div>
+            <div class="server-slot">
+              <div class="server-box">
+                <span class="srv-led"></span>
+                <strong>游戏服务器</strong>
+                <small>裁判 &amp; 世界状态</small>
+              </div>
+              <div class="latency-meter">
+                <label>模拟延迟
+                  <input type="range" id="ping-range" min="20" max="280" step="20" value="60" />
+                </label>
+                <output id="ping-out">60 ms</output>
+              </div>
+            </div>
+            <div class="player-slot p-friend">
+              <div class="avatar friend-av">友</div>
+              <p>客户端 B<br /><small id="friend-status">等待中…</small></p>
+            </div>
+            <div class="packet-layer" id="packet-layer" aria-hidden="true"></div>
+          </div>
+
+          <div class="game-controls">
+            <button type="button" class="btn btn-primary" id="btn-fire">按下射击键</button>
+            <button type="button" class="btn btn-ghost" id="btn-move">发送移动坐标</button>
+            <p class="game-log" id="game-log" aria-live="polite">点按钮，看「消息包裹」飞向服务器，再广播给队友。</p>
+          </div>
+        </div>
+
+        <div class="game-steps-grid">
+          <article>
+            <strong>1. 你本地先演</strong>
+            <p>按下射击，你的画面可能立刻播动画（预测），手感才跟手。</p>
+          </article>
+          <article>
+            <strong>2. 发消息给服务器</strong>
+            <p>真正权威的结果由服务器判定：打没打中、扣多少血。</p>
+          </article>
+          <article>
+            <strong>3. 服务器广播</strong>
+            <p>把「世界更新」发给所有玩家：队友看到你开枪，对手看到自己掉血。</p>
+          </article>
+          <article>
+            <strong>4. 延迟来捣乱</strong>
+            <p>Ping 高时，消息到得慢，就会「瞬移、打不中、橡皮筋」。拖动上面的延迟滑条试试。</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="net-modes">
+        <article>
+          <h3>客户端–服务器</h3>
+          <p>像老师当裁判：大家把动作交给服务器，服务器说了算。王者、原神、大多数网游都这样。</p>
+          <ul>
+            <li>优点：更公平、难作弊、可存档进度</li>
+            <li>缺点：要租服务器，人多时要花钱扩容</li>
+          </ul>
+        </article>
+        <article>
+          <h3>点对点 P2P</h3>
+          <p>像小朋友自己组局：有时由其中一台电脑当「房主」。部分联机小游戏、旧作会用。</p>
+          <ul>
+            <li>优点：省服务器成本</li>
+            <li>缺点：房主断网全员受影响，更易被作弊</li>
+          </ul>
+        </article>
+        <article>
+          <h3>TCP vs UDP（游戏常用）</h3>
+          <p><strong>TCP</strong>：保证送到、按序——适合登录、商城、聊天。</p>
+          <p><strong>UDP</strong>：更快但不保证——适合不断刷新的位置、射击；丢一两个包就用下一帧顶上。</p>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>生活里的网络 vs 游戏里的网络</caption>
+          <thead>
+            <tr><th>场景</th><th>主要传什么</th><th>最在意什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>刷网页 / 看文档</td><td>完整文件，丢了要重传</td><td>正确、完整</td></tr>
+            <tr><td>看视频</td><td>连续影像块，可缓冲</td><td>带宽（够不够快）</td></tr>
+            <tr><td>语音 / 视频通话</td><td>实时声音画面</td><td>延迟 + 稳定</td></tr>
+            <tr><td>竞技联机游戏</td><td>操作、坐标、伤害结果</td><td>低延迟、公平判定</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tip-box">动手观察：打开游戏设置里的「显示网络信息 / Ping」。Wi‑Fi 远、墙多、家里有人下大片时，Ping 往往会升高——有线网线通常更稳。</p>
+    </section>
+
     <!-- BONUS -->
-    <section class="section section-alt" id="bonus">
+    <section class="section" id="bonus">
       <div class="section-head">
         <p class="eyebrow">加餐章节</p>
         <h2>还值得知道的事</h2>
@@ -543,11 +698,8 @@
           <p>文件是数据的包裹；文件夹是分类抽屉。路径像地址：<code>C:\Users\Kid\作业\作文.docx</code> 或 Mac 上的 <code>/Users/kid/作业/作文.docx</code>。</p>
         </article>
         <article class="bonus-card">
-          <h3>网络如何连上世界</h3>
-          <p>你家路由器 → 运营商 → 互联网骨干网 → 远方服务器。浏览器输入网址后，DNS 先把「名字」翻译成 IP 地址，再把网页数据包运回来。</p>
-          <div class="net-flow" aria-hidden="true">
-            <span>你</span><i></i><span>路由器</span><i></i><span>DNS</span><i></i><span>服务器</span>
-          </div>
+          <h3>想了解上网细节？</h3>
+          <p>数据包、Ping、联机游戏通信，已经写进 <a href="#network">第 7 章 · 网络通信</a>。可以和打游戏时的延迟一起对照着看。</p>
         </article>
         <article class="bonus-card">
           <h3>输入设备与输出设备</h3>
@@ -593,6 +745,7 @@
         <li>先玩第 1 章 3D 拆机，建立「零件地图」，不要一上来背名词。</li>
         <li>用「城市比喻」串起来，再回到真实名字。</li>
         <li>打开家里的任务管理器 / 活动监视器，看 CPU、内存占用——把抽象变成屏幕上的数字。</li>
+        <li>打一局联机游戏时打开 Ping 显示，对照第 7 章讲「消息怎么飞」。</li>
         <li>对比家里的手机、平板、电脑：都是计算机，只是形态不同。</li>
         <li>若他想继续：装一个 Ubuntu 虚拟机，或一起看机箱（断电！），或回到本仓库的 AI 数字识别项目。</li>
       </ol>
