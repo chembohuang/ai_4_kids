@@ -176,6 +176,9 @@
     document.querySelectorAll(".part-chip-btn").forEach((el) => {
       el.classList.toggle("is-active", el.dataset.part === key);
     });
+    document.querySelectorAll("#atlas-legend [data-part]").forEach((el) => {
+      el.classList.toggle("is-active", el.dataset.part === key);
+    });
 
     titleEl.textContent = data.title;
     metaphorEl.textContent = data.metaphor;
