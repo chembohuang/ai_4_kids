@@ -128,6 +128,14 @@ def index():
     return send_from_directory('static', 'index.html')
 
 
+@app.route('/computer-guide')
+@app.route('/computer-guide/')
+@app.route('/computer-guide/<path:filename>')
+def computer_guide(filename='index.html'):
+    """给孩子讲解电脑组成的互动指南"""
+    return send_from_directory('static/computer-guide', filename)
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """
