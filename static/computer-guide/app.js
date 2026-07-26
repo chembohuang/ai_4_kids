@@ -210,6 +210,19 @@
     if (zone) selectPart(zone.dataset.part);
   });
 
+  document.getElementById("atlas-legend")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-part]");
+    if (!btn) return;
+    selectPart(btn.dataset.part);
+    document.querySelectorAll("#atlas-legend [data-part]").forEach((el) => {
+      el.classList.toggle("is-active", el === btn);
+    });
+    document.getElementById("part-panel")?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  });
+
   /* Toolbar */
   btnAssemble?.addEventListener("click", () => {
     rig?.classList.remove("explode");
@@ -872,7 +885,7 @@
 
   /* ---------- Scroll reveal ---------- */
   const revealEls = document.querySelectorAll(
-    ".section-head, .workshop, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .dao-quote, .binary-why, .bit-build, .dao-map, .gpu-lab, .vs-hero, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
+    ".section-head, .workshop, .parts-atlas, .city-map, .compare-3d, .stack-3d, .os-grid, .soft-diagram, .dao-quote, .binary-why, .bit-build, .dao-map, .gpu-lab, .vs-hero, .win-lab, .win-skills, .win-shortcuts, .win-howto, .net-journey, .net-basics, .game-lab, .game-steps-grid, .net-modes, .bonus-card, .quiz-item, .teach-steps li"
   );
   revealEls.forEach((el) => el.classList.add("reveal"));
   const io = new IntersectionObserver(

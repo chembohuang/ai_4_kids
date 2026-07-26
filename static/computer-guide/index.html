@@ -164,6 +164,62 @@
         <!-- filled by JS for keyboard/quick access -->
       </div>
 
+      <figure class="parts-atlas" id="parts-atlas">
+        <div class="atlas-head">
+          <h3>零件总览图：它们装在机箱的哪里？</h3>
+          <p class="section-desc">中间是打开侧板的机箱；四周是要装进去的零件，箭头指出安装位置。点图下的标签，可同步打开上方「零件档案」。</p>
+        </div>
+        <div class="atlas-frame">
+          <img
+            src="img/pc-parts-atlas.png"
+            alt="台式机机箱与电源、内存、光驱、硬盘、主板、显卡、CPU 及散热器的安装位置示意图"
+            width="1536"
+            height="1024"
+            loading="lazy"
+          />
+        </div>
+        <figcaption class="atlas-legend" id="atlas-legend">
+          <button type="button" data-part="psu"><b>电源 PSU</b><span>机箱上方供电</span></button>
+          <button type="button" data-part="ram"><b>内存 RAM</b><span>插在主板内存槽</span></button>
+          <button type="button" data-part="ssd"><b>硬盘 / 光驱</b><span>前方驱动器位</span></button>
+          <button type="button" data-part="motherboard"><b>主板</b><span>贴在机箱内侧大板</span></button>
+          <button type="button" data-part="gpu"><b>显卡 GPU</b><span>主板 PCIe 长槽</span></button>
+          <button type="button" data-part="cpu"><b>CPU</b><span>主板中央插槽</span></button>
+          <button type="button" data-part="cooler"><b>散热器</b><span>扣在 CPU 上面</span></button>
+          <button type="button" data-part="case"><b>机箱</b><span>保护与风道的「房子」</span></button>
+        </figcaption>
+        <p class="atlas-note">说明：图中还有旧式软驱、IDE 排线等「历史零件」——现在新电脑多用 SSD + SATA/NVMe 线，但装机思路一样：对上位置、插稳接口。</p>
+      </figure>
+
+      <figure class="parts-atlas parts-atlas-wiki">
+        <div class="atlas-head">
+          <h3>整机爆炸图（含显示器与键鼠）</h3>
+          <p class="section-desc">下面这张是经典的「整机拆解」示意图，把主机外面的显示器、键盘、鼠标也画进来了，方便建立整机印象。</p>
+        </div>
+        <div class="atlas-frame atlas-frame-light">
+          <img
+            src="img/pc-exploded.png"
+            alt="个人电脑爆炸示意图：显示器、主板、CPU、内存、扩展卡、电源、光驱、硬盘、键鼠"
+            width="1280"
+            height="771"
+            loading="lazy"
+          />
+        </div>
+        <ol class="atlas-wiki-legend">
+          <li>显示器</li>
+          <li>主板</li>
+          <li>CPU</li>
+          <li>内存 RAM</li>
+          <li>扩展卡（如显卡）</li>
+          <li>电源</li>
+          <li>光驱</li>
+          <li>硬盘</li>
+          <li>键盘</li>
+          <li>鼠标</li>
+        </ol>
+        <p class="atlas-note">图片来源：Wikimedia Commons（Personal computer, exploded），CC 许可，便于教学使用。</p>
+      </figure>
+
       <div class="mb-schematic" aria-label="主板布局示意">
         <h3>主板平面图（像城市地图）</h3>
         <p class="section-desc">把主板平铺开来看：每个区域住着不同的「邻居」。点击色块也会更新上方零件档案。</p>

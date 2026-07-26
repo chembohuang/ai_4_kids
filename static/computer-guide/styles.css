@@ -841,6 +841,125 @@ a {
   color: var(--teal-deep);
 }
 
+/* Parts atlas (chapter 1 diagram) */
+.parts-atlas {
+  margin: 2rem 0 0;
+  padding: 0;
+}
+.atlas-head h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin: 0 0 0.4rem;
+}
+.atlas-frame {
+  margin-top: 1rem;
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+.atlas-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.atlas-frame-light {
+  background: #f7fbfd;
+  padding: 0.75rem;
+}
+.atlas-legend {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+}
+.atlas-legend button {
+  display: grid;
+  gap: 0.15rem;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: var(--white);
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ink);
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.atlas-legend button:hover,
+.atlas-legend button.is-active {
+  border-color: var(--teal);
+  background: rgba(11, 110, 110, 0.08);
+  transform: translateY(-1px);
+}
+.atlas-legend b {
+  font-family: var(--font-display);
+  color: var(--teal-deep);
+  font-size: 0.98rem;
+}
+.atlas-legend span {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+.atlas-note {
+  margin: 0.75rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.atlas-wiki-legend {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.45rem 0.75rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: wiki;
+}
+.atlas-wiki-legend li {
+  counter-increment: wiki;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.55rem;
+  background: rgba(11, 110, 110, 0.06);
+  border-radius: 10px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+.atlas-wiki-legend li::before {
+  content: counter(wiki);
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--teal);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+}
+.parts-atlas-wiki {
+  margin-top: 2.25rem;
+}
+
+@media (max-width: 960px) {
+  .atlas-legend {
+    grid-template-columns: 1fr 1fr;
+  }
+  .atlas-wiki-legend {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 720px) {
+  .atlas-wiki-legend {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Motherboard schematic map */
 .mb-schematic {
   margin-top: 2rem;
