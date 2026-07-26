@@ -1122,36 +1122,35 @@ a {
   border-radius: 0 12px 12px 0;
 }
 
-/* OS stack */
+/* OS stack — same width as .os-grid below, centered via .section-alt > * */
 .stack-3d {
-  perspective: 900px;
+  perspective: none;
   display: grid;
   gap: 0.65rem;
-  margin: 0 0 2rem;
-  width: 100%;
-  max-width: none;
+  margin: 0 auto 2rem;
+  justify-items: stretch;
 }
 .stack-layer {
-  padding: 1rem 1.2rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 1.25rem;
   border-radius: 12px;
   color: white;
   font-weight: 700;
   font-family: var(--font-display);
-  transform: rotateX(8deg);
-  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.1);
   animation: stack-in 0.7s both;
 }
 .stack-layer span {
   display: block;
-  max-width: 52rem;
 }
 .stack-layer.l4 { background: #e4574c; animation-delay: 0.05s; }
 .stack-layer.l3 { background: #0b6e6e; animation-delay: 0.12s; }
 .stack-layer.l2 { background: #2f6f8f; animation-delay: 0.19s; }
 .stack-layer.l1 { background: #24333d; animation-delay: 0.26s; }
 @keyframes stack-in {
-  from { opacity: 0; transform: rotateX(8deg) translateY(20px); }
-  to { opacity: 1; transform: rotateX(8deg); }
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
 }
 
 .os-grid {
