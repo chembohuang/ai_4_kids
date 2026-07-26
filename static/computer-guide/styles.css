@@ -343,32 +343,29 @@ a {
 
 /*
   Full-bleed background chapters:
-  children share the same content width as regular .section
-  (= section max-width minus horizontal padding), and stay centered.
+  one inner shell matches regular .section content column exactly.
 */
 .section-alt {
   max-width: none;
   padding-left: 0;
   padding-right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: block;
   background: linear-gradient(180deg, rgba(217, 232, 239, 0.65), rgba(231, 240, 244, 0.2));
   border-block: 1px solid var(--line);
 }
-.section-alt > * {
+.section-alt > .section-inner {
   box-sizing: border-box;
-  width: min(
-    calc(100% - 2 * var(--section-pad-x)),
-    calc(var(--section-max) - 2 * var(--section-pad-x))
-  );
-  max-width: calc(var(--section-max) - 2 * var(--section-pad-x));
+  width: 100%;
+  max-width: var(--section-max);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0;
-  padding-right: 0;
-  align-self: center;
-  flex-shrink: 0;
+  padding-left: var(--section-pad-x);
+  padding-right: var(--section-pad-x);
+}
+.section-alt > .section-inner > * {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .section-head {
@@ -1126,7 +1123,7 @@ a {
 
 .tip-box {
   margin-block: 1rem 0;
-  margin-inline: auto;
+  margin-inline: 0;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -1134,20 +1131,6 @@ a {
   background: rgba(240, 180, 41, 0.14);
   border-left: 4px solid var(--amber);
   border-radius: 0 12px 12px 0;
-}
-
-/* Ensure emergency card / tips inside alt chapters stay centered */
-.section-alt > .table-wrap,
-.section-alt > .tip-box,
-.section-alt > .flow-board {
-  width: min(
-    calc(100% - 2 * var(--section-pad-x)),
-    calc(var(--section-max) - 2 * var(--section-pad-x))
-  );
-  max-width: calc(var(--section-max) - 2 * var(--section-pad-x));
-  margin-left: auto;
-  margin-right: auto;
-  align-self: center;
 }
 
 /* OS stack — same width as .os-grid below, centered via .section-alt > * */
@@ -1356,6 +1339,8 @@ a {
     radial-gradient(circle at 90% 10%, rgba(240, 180, 41, 0.18), transparent 40%),
     linear-gradient(135deg, rgba(19, 32, 41, 0.04), rgba(11, 110, 110, 0.1));
   border: 1px solid var(--line);
+  width: 100%;
+  box-sizing: border-box;
 }
 .dao-line {
   margin: 0;
