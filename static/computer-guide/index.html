@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>电脑工坊 · 给好奇少年的计算机指南</title>
+  <meta name="description" content="用 3D 互动图讲解电脑组成、操作系统、软件、GPU，以及 Windows 与苹果的深度对比。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+
+  <header class="site-nav" id="top">
+    <a class="nav-brand" href="#top">电脑工坊</a>
+    <nav class="nav-links" aria-label="章节导航">
+      <a href="#parts">零件</a>
+      <a href="#laptop">笔记本</a>
+      <a href="#os">系统</a>
+      <a href="#software">软件</a>
+      <a href="#binary">二进制</a>
+      <a href="#gpu">显卡</a>
+      <a href="#os-compare">Win vs Mac</a>
+      <a href="#vendors">厂商</a>
+      <a href="#windows">Win入门</a>
+      <a href="#network">网络</a>
+      <a href="#bonus">更多</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" aria-label="开场">
+      <div class="hero-atmosphere" aria-hidden="true"></div>
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="brand-mark">电脑工坊</p>
+        <h1>打开机箱，看看电脑到底怎么工作</h1>
+        <p class="hero-lead">给 12 岁好奇心准备的互动指南：零件、系统、软件，还有 Windows 和苹果到底差在哪。</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#parts">开始拆机</a>
+          <a class="btn btn-ghost" href="#os-compare">直接看对比</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-pc-stage">
+          <div class="hero-pc">
+            <div class="hero-pc-face hero-pc-front"></div>
+            <div class="hero-pc-face hero-pc-side"></div>
+            <div class="hero-pc-face hero-pc-top"></div>
+            <div class="hero-pc-glow"></div>
+          </div>
+          <div class="orbit-chip chip-a">CPU</div>
+          <div class="orbit-chip chip-b">GPU</div>
+          <div class="orbit-chip chip-c">RAM</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. DESKTOP PARTS -->
+    <section class="section" id="parts">
+      <div class="section-head">
+        <p class="eyebrow">第 1 章</p>
+        <h2>台式机电箱里都有什么？</h2>
+        <p class="section-desc">拖动旋转 3D 机箱，点击零件看讲解；也可以先看下面的「零件总览图」，搞清楚每个零件装在哪里。</p>
+      </div>
+
+      <div class="workshop">
+        <div class="workshop-stage">
+          <div class="stage-toolbar">
+            <button type="button" class="tool-btn is-active" id="btn-assemble" data-mode="assemble">组装视图</button>
+            <button type="button" class="tool-btn" id="btn-explode" data-mode="explode">爆炸视图</button>
+            <button type="button" class="tool-btn" id="btn-reset-cam">复位视角</button>
+          </div>
+          <p class="drag-hint">按住拖动可旋转 · 点击零件查看说明</p>
+
+          <div class="pc-viewport" id="pc-viewport">
+            <div class="pc-scene" id="pc-scene">
+              <div class="pc-rig" id="pc-rig">
+                <!-- Case -->
+                <button type="button" class="part case" data-part="case" aria-label="机箱">
+                  <span class="face f-front"></span>
+                  <span class="face f-back"></span>
+                  <span class="face f-left"></span>
+                  <span class="face f-right glass"></span>
+                  <span class="face f-top"></span>
+                  <span class="face f-bottom"></span>
+                </button>
+
+                <!-- Motherboard -->
+                <button type="button" class="part mb" data-part="motherboard" aria-label="主板">
+                  <span class="mb-board">
+                    <span class="mb-trace"></span>
+                    <span class="mb-socket"></span>
+                    <span class="mb-slots"></span>
+                    <span class="mb-chipset"></span>
+                  </span>
+                </button>
+
+                <!-- CPU -->
+                <button type="button" class="part cpu" data-part="cpu" aria-label="CPU">
+                  <span class="cpu-die"></span>
+                  <span class="cpu-ihs">CPU</span>
+                </button>
+
+                <!-- Cooler -->
+                <button type="button" class="part cooler" data-part="cooler" aria-label="散热器">
+                  <span class="cooler-base"></span>
+                  <span class="cooler-fins"></span>
+                  <span class="cooler-fan"></span>
+                </button>
+
+                <!-- RAM -->
+                <button type="button" class="part ram" data-part="ram" aria-label="内存">
+                  <span class="ram-stick s1"><i></i><b>RAM</b></span>
+                  <span class="ram-stick s2"><i></i><b>RAM</b></span>
+                </button>
+
+                <!-- GPU -->
+                <button type="button" class="part gpu" data-part="gpu" aria-label="显卡">
+                  <span class="gpu-pcb"></span>
+                  <span class="gpu-shroud">GPU</span>
+                  <span class="gpu-fan f1"></span>
+                  <span class="gpu-fan f2"></span>
+                </button>
+
+                <!-- SSD -->
+                <button type="button" class="part ssd" data-part="ssd" aria-label="固态硬盘">
+                  <span class="ssd-body">SSD</span>
+                </button>
+
+                <!-- PSU -->
+                <button type="button" class="part psu" data-part="psu" aria-label="电源">
+                  <span class="psu-body">PSU</span>
+                </button>
+
+                <!-- Fan -->
+                <button type="button" class="part casefan" data-part="fan" aria-label="机箱风扇">
+                  <span class="fan-ring"></span>
+                  <span class="fan-blade"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="part-panel" id="part-panel" aria-live="polite">
+          <p class="panel-kicker">零件档案</p>
+          <h3 id="part-title">点击任意零件</h3>
+          <p id="part-metaphor" class="part-metaphor">机箱就像一座小城市：每个零件各司其职。</p>
+          <div class="part-body" id="part-body">
+            <p>左侧是可旋转的 3D 台式机。试试点主板、CPU、显卡……</p>
+          </div>
+          <ul class="part-facts" id="part-facts"></ul>
+          <div class="part-chips" id="part-chips" aria-hidden="true"></div>
+        </aside>
+      </div>
+
+      <div class="part-grid" id="part-quick">
+        <!-- filled by JS for keyboard/quick access -->
+      </div>
+
+      <figure class="parts-atlas" id="parts-atlas">
+        <div class="atlas-head">
+          <h3>零件总览图：它们装在机箱的哪里？</h3>
+          <p class="section-desc">中间是打开侧板的机箱；四周是要装进去的零件，箭头指出安装位置。点图下的标签，可同步打开上方「零件档案」。</p>
+        </div>
+        <div class="atlas-frame">
+          <img
+            src="img/pc-parts-atlas.png"
+            alt="台式机机箱与电源、内存、光驱、硬盘、主板、显卡、CPU 及散热器的安装位置示意图"
+            width="1536"
+            height="1024"
+            loading="lazy"
+          />
+        </div>
+        <figcaption class="atlas-legend" id="atlas-legend">
+          <button type="button" data-part="psu"><b>电源 PSU</b><span>机箱上方供电</span></button>
+          <button type="button" data-part="ram"><b>内存 RAM</b><span>插在主板内存槽</span></button>
+          <button type="button" data-part="ssd"><b>硬盘 / 光驱</b><span>前方驱动器位</span></button>
+          <button type="button" data-part="motherboard"><b>主板</b><span>贴在机箱内侧大板</span></button>
+          <button type="button" data-part="gpu"><b>显卡 GPU</b><span>主板 PCIe 长槽</span></button>
+          <button type="button" data-part="cpu"><b>CPU</b><span>主板中央插槽</span></button>
+          <button type="button" data-part="cooler"><b>散热器</b><span>扣在 CPU 上面</span></button>
+          <button type="button" data-part="case"><b>机箱</b><span>保护与风道的「房子」</span></button>
+        </figcaption>
+        <p class="atlas-note">说明：图中还有旧式软驱、IDE 排线等「历史零件」——现在新电脑多用 SSD + SATA/NVMe 线，但装机思路一样：对上位置、插稳接口。</p>
+      </figure>
+
+      <figure class="parts-atlas parts-atlas-wiki">
+        <div class="atlas-head">
+          <h3>整机爆炸图（含显示器与键鼠）</h3>
+          <p class="section-desc">下面这张是经典的「整机拆解」示意图，把主机外面的显示器、键盘、鼠标也画进来了，方便建立整机印象。</p>
+        </div>
+        <div class="atlas-frame atlas-frame-light">
+          <img
+            src="img/pc-exploded.png"
+            alt="个人电脑爆炸示意图：显示器、主板、CPU、内存、扩展卡、电源、光驱、硬盘、键鼠"
+            width="1280"
+            height="771"
+            loading="lazy"
+          />
+        </div>
+        <ol class="atlas-wiki-legend">
+          <li>显示器</li>
+          <li>主板</li>
+          <li>CPU</li>
+          <li>内存 RAM</li>
+          <li>扩展卡（如显卡）</li>
+          <li>电源</li>
+          <li>光驱</li>
+          <li>硬盘</li>
+          <li>键盘</li>
+          <li>鼠标</li>
+        </ol>
+        <p class="atlas-note">图片来源：Wikimedia Commons（Personal computer, exploded），CC 许可，便于教学使用。</p>
+      </figure>
+
+      <div class="mb-schematic" aria-label="主板布局示意">
+        <h3>主板平面图（像城市地图）</h3>
+        <p class="section-desc">把主板平铺开来看：每个区域住着不同的「邻居」。点击色块也会更新上方零件档案。</p>
+        <div class="mb-map" id="mb-map">
+          <button type="button" class="mb-zone z-cpu" data-part="cpu"><span>CPU 插槽</span></button>
+          <button type="button" class="mb-zone z-ram" data-part="ram"><span>内存插槽</span></button>
+          <button type="button" class="mb-zone z-gpu" data-part="gpu"><span>显卡 PCIe</span></button>
+          <button type="button" class="mb-zone z-ssd" data-part="ssd"><span>M.2 SSD</span></button>
+          <button type="button" class="mb-zone z-io" data-part="motherboard"><span>背部接口</span></button>
+          <button type="button" class="mb-zone z-pwr" data-part="psu"><span>供电接口</span></button>
+          <div class="mb-traces" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analogy -->
+    <section class="section section-alt" id="city">
+      <div class="section-inner">
+      <div class="section-head">
+        <p class="eyebrow">快速理解</p>
+        <h2>把电脑想成一座城市</h2>
+        <p class="section-desc">这是帮助记忆的比喻——不是严格定义，但很适合第一次建立直觉。</p>
+      </div>
+      <div class="city-map" role="list">
+        <article class="city-item" role="listitem"><strong>CPU</strong><span>市长办公室：发号施令、做决定</span></article>
+        <article class="city-item" role="listitem"><strong>内存 RAM</strong><span>办公桌：正在处理的文件放这里，断电就清空</span></article>
+        <article class="city-item" role="listitem"><strong>硬盘 / SSD</strong><span>图书馆+仓库：长期保存游戏、照片、作业</span></article>
+        <article class="city-item" role="listitem"><strong>主板</strong><span>城市道路：让所有人互相通信</span></article>
+        <article class="city-item" role="listitem"><strong>显卡 GPU</strong><span>电影院特效团队：负责画面与大规模并行计算</span></article>
+        <article class="city-item" role="listitem"><strong>电源</strong><span>发电厂：给整座城市供电</span></article>
+        <article class="city-item" role="listitem"><strong>操作系统</strong><span>交通规则+政府：协调谁先用路、谁能进门</span></article>
+        <article class="city-item" role="listitem"><strong>应用软件</strong><span>商店与学校：你真正「使用」的服务</span></article>
+      </div>
+    
+      </div>
+    </section>
+
+    <!-- 2. LAPTOP VS DESKTOP -->
+    <section class="section" id="laptop">
+      <div class="section-head">
+        <p class="eyebrow">第 2 章</p>
+        <h2>笔记本电脑和台式机差在哪？</h2>
+        <p class="section-desc">一个像折叠书包，一个像可改装的乐高城堡。下面用 3D 并排对比。</p>
+      </div>
+
+      <div class="compare-3d">
+        <div class="device-card">
+          <div class="device-stage">
+            <div class="desktop-mini" aria-hidden="true">
+              <div class="dm-tower"></div>
+              <div class="dm-monitor">
+                <div class="dm-screen"></div>
+                <div class="dm-stand"></div>
+              </div>
+              <div class="dm-kb"></div>
+            </div>
+          </div>
+          <h3>台式机 Desktop</h3>
+          <ul>
+            <li>主机、显示器、键盘鼠标分开</li>
+            <li>零件大，散热好，性能上限高</li>
+            <li>方便升级：换显卡、加内存、加硬盘</li>
+            <li>要有固定桌面空间，不便随身带</li>
+          </ul>
+        </div>
+        <div class="device-card">
+          <div class="device-stage">
+            <div class="laptop-3d" id="laptop-3d" aria-hidden="true">
+              <div class="lp-lid">
+                <div class="lp-screen"></div>
+                <div class="lp-bezel"></div>
+              </div>
+              <div class="lp-base">
+                <div class="lp-kb"></div>
+                <div class="lp-track"></div>
+              </div>
+            </div>
+          </div>
+          <h3>笔记本 Laptop</h3>
+          <ul>
+            <li>屏幕、键盘、电池全装在一起</li>
+            <li>轻便便携，有电池，可离插座使用</li>
+            <li>内部空间紧，升级能力弱（很多焊死）</li>
+            <li>同价位通常性能略低于台式</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>核心差异一览</caption>
+          <thead>
+            <tr><th>维度</th><th>台式机</th><th>笔记本</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>便携性</td><td>差</td><td>强</td></tr>
+            <tr><td>性能 / 散热</td><td>通常更强</td><td>受体积限制</td></tr>
+            <tr><td>升级改装</td><td>很容易</td><td>很难或不能</td></tr>
+            <tr><td>屏幕 / 外设</td><td>可自由搭配</td><td>一体，可外接</td></tr>
+            <tr><td>适合场景</td><td>家里游戏、创作、学习主机</td><td>上课、外出、旅行</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tip-box">给好奇少年的建议：家里有空间又想玩 3D 游戏或学编程搭模型，台式更爽；经常要带着走，选笔记本。很多人两台都有——笔记本出门，台式在家。</p>
+    </section>
+
+    <!-- 3. OS -->
+    <section class="section section-alt" id="os">
+      <div class="section-inner">
+      <div class="section-head">
+        <p class="eyebrow">第 3 章</p>
+        <h2>什么是操作系统？</h2>
+        <p class="section-desc">操作系统（Operating System，简称 OS）是电脑的「大管家」。没有它，软件不知道怎么用硬件。</p>
+      </div>
+
+      <div class="stack-3d" aria-hidden="true">
+        <div class="stack-layer l4"><span>你点开的 App：浏览器、游戏、画图</span></div>
+        <div class="stack-layer l3"><span>操作系统：Windows / macOS / Linux</span></div>
+        <div class="stack-layer l2"><span>驱动程序：教系统如何跟显卡、键盘说话</span></div>
+        <div class="stack-layer l1"><span>硬件：CPU、内存、硬盘、显卡……</span></div>
+      </div>
+
+      <div class="os-grid">
+        <article>
+          <h3>它每天在忙什么？</h3>
+          <ul class="check-list">
+            <li>开机自检，把系统从硬盘装进内存</li>
+            <li>管理窗口、鼠标、键盘输入</li>
+            <li>决定哪个程序先用 CPU（调度）</li>
+            <li>管文件：存哪、叫什么、谁能看</li>
+            <li>管安全：账号、权限、防火墙</li>
+            <li>提供统一接口，让 App 不用直接操作硬件</li>
+          </ul>
+        </article>
+        <article>
+          <h3>常见操作系统家庭</h3>
+          <div class="os-families">
+            <div><strong>Windows</strong><span>微软，个人电脑最常见</span></div>
+            <div><strong>macOS</strong><span>苹果电脑专用</span></div>
+            <div><strong>Linux</strong><span>开源，服务器和极客最爱；安卓也基于 Linux 内核</span></div>
+            <div><strong>ChromeOS</strong><span>谷歌，偏网页与云端</span></div>
+            <div><strong>iOS / iPadOS / Android</strong><span>手机和平板的操作系统</span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="flow-board" id="boot-flow">
+        <h3>按下电源键之后发生了什么？</h3>
+        <ol class="flow-steps">
+          <li><b>1</b><span>电源供电，主板自检（POST）</span></li>
+          <li><b>2</b><span>固件（BIOS/UEFI）找到启动盘</span></li>
+          <li><b>3</b><span>引导程序把操作系统内核加载进内存</span></li>
+          <li><b>4</b><span>驱动加载，桌面出现，你可以登录</span></li>
+        </ol>
+      </div>
+    
+      </div>
+    </section>
+
+    <!-- 5. SOFTWARE -->
+    <section class="section" id="software">
+      <div class="section-head">
+        <p class="eyebrow">第 4 章</p>
+        <h2>什么是软件？</h2>
+        <p class="section-desc">硬件是你摸得着的零件；软件是告诉硬件「做什么」的一串指令。没有软件，电脑只是一堆会发热的金属和硅。</p>
+      </div>
+
+      <div class="soft-diagram">
+        <div class="soft-col">
+          <h3>系统软件</h3>
+          <p>让电脑能「活起来」的基础设施。</p>
+          <ul>
+            <li>操作系统（Windows、macOS）</li>
+            <li>驱动程序</li>
+            <li>工具：压缩、杀毒、备份</li>
+          </ul>
+        </div>
+        <div class="soft-col accent">
+          <h3>应用软件</h3>
+          <p>为具体任务而生，你天天用到的那些。</p>
+          <ul>
+            <li>浏览器、Office、微信</li>
+            <li>游戏、剪辑、画图、编程 IDE</li>
+            <li>网站其实也是一种远程软件</li>
+          </ul>
+        </div>
+        <div class="soft-col">
+          <h3>程序长什么样？</h3>
+          <p>程序员写「源代码」，再编译/解释成机器能懂的指令。</p>
+          <pre class="code-sample" tabindex="0"><code>// 伪代码：让电脑打招呼
+如果 用户点击按钮:
+    屏幕显示 "你好！"
+    播放提示音</code></pre>
+        </div>
+      </div>
+
+      <div class="bits-panel">
+        <h3>补充：电脑其实只懂 0 和 1</h3>
+        <p>更完整的故事在下一节。你可以先输入一个字母，看它变成一串 0 和 1。</p>
+        <div class="binary-demo" id="binary-demo">
+          <label>输入一个字母看看：
+            <input type="text" maxlength="1" value="A" id="bin-input" aria-label="输入一个字符" />
+          </label>
+          <output id="bin-output" for="bin-input">01000001</output>
+          <p class="bin-note" id="bin-note">字母 A 在电脑里常常是 01000001</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BINARY / 三生万物 -->
+    <section class="section section-alt" id="binary">
+      <div class="section-inner">
+      <div class="section-head">
+        <p class="eyebrow">延伸 · 二进制</p>
+        <h2>为什么电脑只存 0 和 1？</h2>
+        <p class="section-desc">不是电脑「笨」，而是物理世界里，最稳妥的信号往往只有两种状态。奇妙的是：就靠这两种状态，能拼出整个数字宇宙——很像中国古人说的「二生三，三生万物」。</p>
+      </div>
+
+      <div class="dao-quote" lang="zh-Hans">
+        <p class="dao-line">道生一，一生二，二生三，三生万物。</p>
+        <p class="dao-cite">——《道德经》第四十二章</p>
+        <p class="dao-gloss">「二」可以想成阴阳两仪：有/无、开/关、高/低。电脑里的 0 与 1，正是一对最简单的「两仪」。</p>
+      </div>
+
+      <div class="binary-why">
+        <article>
+          <h3>电路最喜欢「说清楚」</h3>
+          <p>芯片里是海量微型开关（晶体管）。电压高一点或低一点，用两种状态表示最不容易搞混：</p>
+          <ul class="check-list">
+            <li><strong>1</strong> ≈ 有电 / 开 / 高电平</li>
+            <li><strong>0</strong> ≈ 没电 / 关 / 低电平</li>
+          </ul>
+          <p>如果硬要存 0、1、2、3……很多档电压，噪声稍一大就会认错。两种状态最稳、最省事、也最好大规模制造。</p>
+        </article>
+        <article>
+          <h3>不是只能数到 1</h3>
+          <p>单个开关只能是 0 或 1；但<strong>很多个开关排在一起</strong>，就能表示很大的数、很复杂的信息。</p>
+          <ul class="check-list">
+            <li>1 位（bit）：2 种可能 —— 像一枚硬币正反面</li>
+            <li>2 位：00 01 10 11 —— 4 种</li>
+            <li>8 位（1 字节）：256 种 —— 够编码很多字母与符号</li>
+            <li>再多位：图片、音乐、游戏世界……</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="bit-build">
+        <div class="bit-stage">
+          <div class="yin-yang" title="阴阳两仪 ≈ 0 与 1">
+            <span class="yy-zero">0</span>
+            <span class="yy-one">1</span>
+          </div>
+          <div class="bit-arrow">组合</div>
+          <div class="bit-bytes">
+            <div class="bit-row" id="bit-row">
+              <button type="button" class="bit-sw is-on" data-bit="0" aria-label="第1位">1</button>
+              <button type="button" class="bit-sw" data-bit="1" aria-label="第2位">0</button>
+              <button type="button" class="bit-sw" data-bit="2" aria-label="第3位">0</button>
+              <button type="button" class="bit-sw is-on" data-bit="3" aria-label="第4位">1</button>
+              <button type="button" class="bit-sw" data-bit="4" aria-label="第5位">0</button>
+              <button type="button" class="bit-sw" data-bit="5" aria-label="第6位">0</button>
+              <button type="button" class="bit-sw" data-bit="6" aria-label="第7位">0</button>
+              <button type="button" class="bit-sw is-on" data-bit="7" aria-label="第8位">1</button>
+            </div>
+            <p class="bit-readout"><span id="bit-binary">10010001</span> → 十进制 <strong id="bit-decimal">145</strong></p>
+            <p class="bit-hint">点上面的小开关，翻转 0 / 1，看数值怎么变</p>
+          </div>
+          <div class="bit-arrow">万物</div>
+          <div class="bit-world">
+            <span>文字</span>
+            <span>图片</span>
+            <span>音乐</span>
+            <span>游戏</span>
+            <span>视频</span>
+            <span>AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dao-map">
+        <article>
+          <strong>道生一</strong>
+          <p>先有「能表示信息」这件事——电流、开关、存储介质。</p>
+        </article>
+        <article>
+          <strong>一生二</strong>
+          <p>分出两种稳定状态：阴 / 阳，也就是 0 / 1。</p>
+        </article>
+        <article>
+          <strong>二生三</strong>
+          <p>规则出现了：怎么排列、怎么运算、怎么约定「01000001 = A」。</p>
+        </article>
+        <article>
+          <strong>三生万物</strong>
+          <p>约定 + 海量比特，生长出软件、网络、游戏和人工智能。</p>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>古人的两仪 × 电脑的比特</caption>
+          <thead>
+            <tr><th>中国传统意象</th><th>计算机里的对应</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>阴阳两仪</td><td>0 与 1 两种状态</td></tr>
+            <tr><td>爻的组合（如八卦）</td><td>多位比特的排列组合</td></tr>
+            <tr><td>三生万物</td><td>编码规则 + 海量比特 → 无穷信息</td></tr>
+            <tr><td>易有太极</td><td>再复杂的程序，底层仍是开关在翻转</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tip-box">跟孩子讲时可说：电脑并不是「只会数到 1」，而是「最擅长用最简单的两种积木」。积木只有两种，但搭法无穷——这就是二进制的力量，也是「三生万物」在硅片上的回响。</p>
+    
+      </div>
+    </section>
+
+    <!-- 6. GPU -->
+    <section class="section" id="gpu">
+      <div class="section-head">
+        <p class="eyebrow">第 5 章</p>
+        <h2>GPU 和显卡是什么？</h2>
+        <p class="section-desc">GPU = Graphics Processing Unit（图形处理器）。显卡通常指「装了 GPU + 显存 + 散热的一整块板卡」。</p>
+      </div>
+
+      <div class="gpu-lab">
+        <div class="gpu-model" id="gpu-model" aria-hidden="true">
+          <div class="gcard">
+            <div class="gcard-pcb"></div>
+            <div class="gcard-cooler">
+              <div class="gf gf1"></div>
+              <div class="gf gf2"></div>
+              <div class="gf gf3"></div>
+            </div>
+            <div class="gcard-ports"></div>
+            <div class="gcard-label">GeForce-style GPU</div>
+          </div>
+          <div class="gpu-rays"></div>
+        </div>
+        <div class="gpu-explain">
+          <h3>CPU vs GPU：两种「思考」方式</h3>
+          <div class="cpu-gpu-compare">
+            <div>
+              <strong>CPU</strong>
+              <p>少量超强核心，擅长复杂逻辑、做决定、跑操作系统。</p>
+              <p class="analogy">像几个特别聪明的同学，一道难题一道难题解。</p>
+            </div>
+            <div>
+              <strong>GPU</strong>
+              <p>成千上万个小核心，擅长同时做大量相似计算。</p>
+              <p class="analogy">像整座礼堂的同学一起算「每个像素该是什么颜色」。</p>
+            </div>
+          </div>
+          <ul class="check-list">
+            <li>游戏画面、3D 建模、视频剪辑都依赖 GPU</li>
+            <li>现在 AI 训练/推理也大量用 GPU（矩阵运算很适合并行）</li>
+            <li>核显：GPU 做在 CPU 里，够上网办公；独显：独立显卡，玩游戏/创作更强</li>
+            <li>显存（VRAM）：显卡自己的「超快跑腿内存」，专门给画面和模型数据用</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. WINDOWS VS APPLE -->
+    <section class="section" id="os-compare">
+      <div class="section-head">
+        <p class="eyebrow">第 6 章</p>
+        <h2>Windows vs 苹果：深度对比</h2>
+        <p class="section-desc">「苹果」通常指 Mac 电脑 + macOS。「Windows」是微软的操作系统，可装在很多品牌电脑上。没有绝对谁更好，只有更适合谁。</p>
+      </div>
+
+      <div class="vs-hero">
+        <div class="vs-side win">
+          <div class="vs-logo" aria-hidden="true">
+            <span class="win-squares"><i></i><i></i><i></i><i></i></span>
+          </div>
+          <h3>Windows 世界</h3>
+          <p>开放生态：联想、戴尔、华硕、自组机……硬件选择极多。</p>
+        </div>
+        <div class="vs-badge" aria-hidden="true">VS</div>
+        <div class="vs-side mac">
+          <div class="vs-logo" aria-hidden="true">
+            <span class="mac-bite"></span>
+          </div>
+          <h3>苹果 Mac 世界</h3>
+          <p>软硬一体：电脑和系统都由苹果设计，体验统一、可控。</p>
+        </div>
+      </div>
+
+      <div class="vendor-eco" id="vendors">
+        <div class="section-head compact">
+          <h3>谁在造电脑？Windows 有很多家，苹果只有一家</h3>
+          <p class="section-desc">这是最容易被忽略、却特别重要的差别：买 Windows 电脑时，你是在选「哪家工厂」；买 Mac 时，牌子只有 Apple。</p>
+        </div>
+
+        <div class="vendor-flow" aria-hidden="true">
+          <div class="vf-col win-side">
+            <div class="vf-os">微软做系统<br /><strong>Windows</strong></div>
+            <div class="vf-arrows">↓ ↓ ↓ ↓</div>
+            <div class="vf-brands">
+              <span>联想</span><span>戴尔</span><span>惠普</span><span>华硕</span>
+              <span>宏碁</span><span>微星</span><span>华为</span><span>自组机…</span>
+            </div>
+            <p>很多厂商都能装 Windows</p>
+          </div>
+          <div class="vf-vs">VS</div>
+          <div class="vf-col mac-side">
+            <div class="vf-os">苹果做系统<br /><strong>macOS</strong></div>
+            <div class="vf-arrows">↓</div>
+            <div class="vf-brands single">
+              <span>Apple 唯一</span>
+            </div>
+            <p>Mac 只由苹果一家设计制造</p>
+          </div>
+        </div>
+
+        <div class="vendor-grid">
+          <article>
+            <h4>联想 Lenovo</h4>
+            <p>ThinkPad 商务本很有名；拯救者偏游戏。国内保修与门店相对好找。</p>
+          </article>
+          <article>
+            <h4>戴尔 Dell</h4>
+            <p>XPS 轻薄本、Alienware 游戏本、OptiPlex 办公台式常见于公司与学校。</p>
+          </article>
+          <article>
+            <h4>惠普 HP</h4>
+            <p>家用本、暗影精灵游戏本，打印机生态也大。型号很多，买时要看准配置。</p>
+          </article>
+          <article>
+            <h4>华硕 ASUS</h4>
+            <p>ROG 玩家国度做游戏硬件；灵耀等系列偏轻薄与创作。</p>
+          </article>
+          <article>
+            <h4>宏碁 Acer / 微星 MSI</h4>
+            <p>宏碁性价比机型多；微星强项是游戏本与创作者笔记本。</p>
+          </article>
+          <article>
+            <h4>华为 / 荣耀 / 小米等</h4>
+            <p>国内消费品牌笔记本也常见。注意：系统仍是 Windows（或厂商定制界面），不是另一套「中国操作系统」。</p>
+          </article>
+          <article>
+            <h4>微软 Surface</h4>
+            <p>微软自己也造电脑！但只是 Windows 世界里的「一家」，不是唯一。</p>
+          </article>
+          <article>
+            <h4>自己组装 DIY</h4>
+            <p>主板、CPU、显卡分开买，像拼乐高。只有 Windows（或 Linux）台式常见；苹果一般不能这样玩。</p>
+          </article>
+        </div>
+
+        <div class="apple-only">
+          <div>
+            <h4>苹果 Apple：只有一家</h4>
+            <p>想用正版 macOS，通常只能买苹果电脑：MacBook Air / Pro、iMac、Mac mini、Mac Studio 等。机型由苹果定，颜色与接口选择也少得多，但软硬件磨合更统一。</p>
+          </div>
+          <ul>
+            <li>没有「华硕版 Mac」或「联想版 macOS」</li>
+            <li>芯片、外壳、系统多半一起设计</li>
+            <li>售后主要走苹果官方或授权点</li>
+          </ul>
+        </div>
+
+        <div class="table-wrap">
+          <table class="compare-table">
+            <caption>买电脑时你会遇到的「牌子问题」</caption>
+            <thead>
+              <tr><th>问题</th><th>Windows 阵营</th><th>苹果阵营</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>系统谁做的？</td>
+                <td>微软</td>
+                <td>苹果</td>
+              </tr>
+              <tr>
+                <td>电脑谁造的？</td>
+                <td>很多家（联想、戴尔、华硕……）或自己装</td>
+                <td>基本上只有苹果</td>
+              </tr>
+              <tr>
+                <td>同价位选择</td>
+                <td>极多，要对比配置与做工</td>
+                <td>机型少，主要看屏幕尺寸与芯片档位</td>
+              </tr>
+              <tr>
+                <td>坏了怎么办？</td>
+                <td>品牌售后 / 本地维修店 / 换零件</td>
+                <td>多为官方体系，第三方更受限</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="tip-box">口诀：Windows 是「一家做系统，千家造电脑」；苹果是「系统与电脑都只此一家」。所以逛电脑城时，Windows 要问品牌和配置；苹果则主要在苹果店或授权渠道选机型。</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table deep">
+          <caption>深度对照表（给家长和少年一起看）</caption>
+          <thead>
+            <tr><th>主题</th><th>Windows</th><th>苹果 macOS</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>买什么</td>
+              <td>只买系统授权 + 任意兼容电脑；价位从千元到顶配都有</td>
+              <td>买苹果电脑就自带 macOS；机型选择少，起售价通常更高</td>
+            </tr>
+            <tr>
+              <td>界面感觉</td>
+              <td>开始菜单、多桌面、高度可定制；游戏与生产力并重</td>
+              <td>程序坞、菜单栏在顶部；动画细腻，默认简洁</td>
+            </tr>
+            <tr>
+              <td>软件与游戏</td>
+              <td>游戏王国；工程、建筑设计等专业软件覆盖广</td>
+              <td>影像、音乐、设计、开发体验优秀；大型 3A 游戏相对少（近年在改善）</td>
+            </tr>
+            <tr>
+              <td>硬件自由</td>
+              <td>可换显卡、内存、硬盘（视机型）；自组机玩家天堂</td>
+              <td>多为一体化；Apple Silicon 后很多部件不可升级</td>
+            </tr>
+            <tr>
+              <td>芯片路线</td>
+              <td>主要是 Intel / AMD x86；也有 ARM 新品</td>
+              <td>近年用自研 Apple Silicon（M 系列），能效与续航突出</td>
+            </tr>
+            <tr>
+              <td>生态联动</td>
+              <td>与 Xbox、微软 365、安卓手机有联动，但品牌分散</td>
+              <td>与 iPhone、iPad、AirPods、Apple Watch 联动极强（隔空投送、连续互通）</td>
+            </tr>
+            <tr>
+              <td>病毒与安全</td>
+              <td>用户量大，恶意软件更多；需养成更新与谨慎下载习惯</td>
+              <td>目标相对少 + 权限模型严格，但仍需警惕钓鱼与恶意软件</td>
+            </tr>
+            <tr>
+              <td>学习与编程</td>
+              <td>学校机房常见；兼容绝大多数教学软件</td>
+              <td>Unix 底子，对学编程、做网页、iOS 开发很友好</td>
+            </tr>
+            <tr>
+              <td>维修与寿命</td>
+              <td>零件好找，维修选择多</td>
+              <td>官方维修体系完善，第三方维修受限更多</td>
+            </tr>
+            <tr>
+              <td>适合谁</td>
+              <td>想打游戏、预算灵活、喜欢自己折腾硬件的人</td>
+              <td>已有 iPhone、重视续航与做视频/设计、不爱折腾驱动的人</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="myth-grid">
+        <article>
+          <h3>常见误解</h3>
+          <ul>
+            <li>「Mac 不能中毒」——不绝对，只是相对少</li>
+            <li>「Windows 一定卡」——很多是配置或软件过多导致</li>
+            <li>「苹果不能打游戏」——能玩，但 steams 大作与外设生态仍是 Windows 更强</li>
+          </ul>
+        </article>
+        <article>
+          <h3>怎么选？（给 12 岁场景）</h3>
+          <ul>
+            <li>主力玩 3A 大作 / 学装机 → 优先 Windows 台式或游戏本</li>
+            <li>家里全是 iPhone / 想剪视频做音乐 → Mac 很香</li>
+            <li>预算有限又要做作业上网课 → Windows 笔记本性价比通常更高</li>
+            <li>也可以先学通用概念，系统以后都能迁移</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- WINDOWS BASICS -->
+    <section class="section section-alt" id="windows">
+      <div class="section-inner">
+      <div class="section-head">
+        <p class="eyebrow">第 7 章</p>
+        <h2>Windows 使用入门</h2>
+        <p class="section-desc">认识桌面、开始菜单、文件和快捷键。下面有一台「迷你 Windows」可以点着玩——点哪里，右边就会出现讲解。</p>
+      </div>
+
+      <div class="win-lab">
+        <div class="win-desktop" id="win-desktop" role="application" aria-label="Windows 桌面示意">
+          <div class="win-wallpaper" aria-hidden="true"></div>
+
+          <div class="win-icons">
+            <button type="button" class="win-icon" data-win="this-pc" aria-label="此电脑">
+              <span class="wi-glyph pc"></span>
+              <span>此电脑</span>
+            </button>
+            <button type="button" class="win-icon" data-win="recycle" aria-label="回收站">
+              <span class="wi-glyph bin"></span>
+              <span>回收站</span>
+            </button>
+            <button type="button" class="win-icon" data-win="folder" aria-label="我的作业">
+              <span class="wi-glyph folder"></span>
+              <span>我的作业</span>
+            </button>
+            <button type="button" class="win-icon" data-win="edge" aria-label="浏览器">
+              <span class="wi-glyph edge"></span>
+              <span>浏览器</span>
+            </button>
+          </div>
+
+          <div class="win-window is-open" id="win-window" data-win-panel="explorer" hidden>
+            <div class="ww-titlebar">
+              <span id="ww-title">文件资源管理器</span>
+              <div class="ww-controls" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+            <div class="ww-body" id="ww-body">
+              <aside class="ww-sidebar">
+                <button type="button" data-win="folder">桌面</button>
+                <button type="button" data-win="downloads">下载</button>
+                <button type="button" data-win="documents">文档</button>
+                <button type="button" data-win="this-pc">此电脑</button>
+              </aside>
+              <div class="ww-files">
+                <button type="button" class="ww-file" data-win="documents"><span class="fi doc"></span>作文.docx</button>
+                <button type="button" class="ww-file" data-win="downloads"><span class="fi zip"></span>安装包.exe</button>
+                <button type="button" class="ww-file" data-win="folder"><span class="fi pic"></span>截图.png</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="win-start" id="win-start" hidden>
+            <p class="ws-label">已固定</p>
+            <div class="ws-apps">
+              <button type="button" data-win="settings">设置</button>
+              <button type="button" data-win="edge">Microsoft Edge</button>
+              <button type="button" data-win="store">Microsoft Store</button>
+              <button type="button" data-win="explorer">文件资源管理器</button>
+              <button type="button" data-win="taskmgr">任务管理器</button>
+            </div>
+            <button type="button" class="ws-power" data-win="power">电源：睡眠 / 关机 / 重启</button>
+          </div>
+
+          <div class="win-taskbar">
+            <button type="button" class="tb-start" id="tb-start" data-win="start" aria-label="开始菜单" title="开始">
+              <span class="win-squares mini"><i></i><i></i><i></i><i></i></span>
+            </button>
+            <button type="button" class="tb-search" data-win="search" aria-label="搜索">搜索应用、文件…</button>
+            <div class="tb-pins">
+              <button type="button" class="tb-pin" data-win="explorer" title="资源管理器" aria-label="资源管理器"><span class="pin-folder"></span></button>
+              <button type="button" class="tb-pin" data-win="edge" title="浏览器" aria-label="浏览器"><span class="pin-web"></span></button>
+              <button type="button" class="tb-pin" data-win="settings" title="设置" aria-label="设置"><span class="pin-gear"></span></button>
+            </div>
+            <div class="tb-tray">
+              <button type="button" class="tb-pin" data-win="wifi" title="网络" aria-label="网络"><span class="pin-wifi"></span></button>
+              <button type="button" class="tb-pin" data-win="sound" title="音量" aria-label="音量"><span class="pin-vol"></span></button>
+              <button type="button" data-win="clock" class="tb-clock" id="tb-clock">12:00</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="win-coach" id="win-coach" aria-live="polite">
+          <p class="panel-kicker">Windows 教练</p>
+          <h3 id="win-coach-title">点桌面上的图标试试</h3>
+          <div id="win-coach-body">
+            <p>左侧是简化版 Windows 11 桌面。可以从「开始」、任务栏或桌面图标入手。</p>
+          </div>
+          <ul class="part-facts" id="win-coach-facts"></ul>
+        </aside>
+      </div>
+
+      <div class="win-skills">
+        <article>
+          <h3>每天都会用到</h3>
+          <ul class="check-list">
+            <li><strong>开始菜单</strong>：左下角 Windows 图标，找程序、关机</li>
+            <li><strong>任务栏</strong>：正在运行的程序排在这里，点一下可切换</li>
+            <li><strong>文件资源管理器</strong>：管文件夹与文件（作业、下载、图片）</li>
+            <li><strong>设置</strong>：Wi‑Fi、蓝牙、显示、更新、账号</li>
+            <li><strong>通知中心 / 快捷设置</strong>：右下角，可开关 Wi‑Fi、夜间模式等</li>
+          </ul>
+        </article>
+        <article>
+          <h3>文件怎么放才不乱</h3>
+          <ul class="check-list">
+            <li>作业放「文档」或自己建的「我的作业」文件夹</li>
+            <li>网上下的东西先进「下载」，整理后再搬走</li>
+            <li>重要文件不要只放桌面——桌面乱了也难找</li>
+            <li>删除的文件先进「回收站」，清空才真正消失</li>
+            <li>学会看后缀：<code>.docx</code> 文档、<code>.png</code> 图片、<code>.exe</code> 安装程序（要小心）</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="win-shortcuts">
+        <h3>超级好用的快捷键</h3>
+        <div class="keys-grid">
+          <div><kbd>Ctrl</kbd>+<kbd>C</kbd><span>复制</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>V</kbd><span>粘贴</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>Z</kbd><span>撤销</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>S</kbd><span>保存</span></div>
+          <div><kbd>Alt</kbd>+<kbd>Tab</kbd><span>切换窗口</span></div>
+          <div><kbd>Win</kbd>+<kbd>D</kbd><span>显示桌面</span></div>
+          <div><kbd>Win</kbd>+<kbd>E</kbd><span>打开资源管理器</span></div>
+          <div><kbd>Win</kbd>+<kbd>I</kbd><span>打开设置</span></div>
+          <div><kbd>Win</kbd>+<kbd>L</kbd><span>锁定电脑</span></div>
+          <div><kbd>Win</kbd>+<kbd>Tab</kbd><span>多桌面 / 任务视图</span></div>
+          <div><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Esc</kbd><span>任务管理器</span></div>
+          <div><kbd>Win</kbd>+<kbd>PrtSc</kbd><span>截图保存</span></div>
+        </div>
+      </div>
+
+      <div class="win-howto">
+        <article>
+          <h3>安装软件（正规路径）</h3>
+          <ol>
+            <li>打开 <strong>Microsoft Store</strong>（应用商店），或去官网下载</li>
+            <li>只运行你信任的 <code>.exe</code> / <code>.msi</code> 安装包</li>
+            <li>按提示「下一步」，注意有没有捆绑其它软件</li>
+            <li>装好后可在开始菜单找到它，也可固定到任务栏</li>
+          </ol>
+        </article>
+        <article>
+          <h3>卸载软件</h3>
+          <ol>
+            <li>打开「设置」→「应用」→「已安装的应用」</li>
+            <li>找到程序 → 卸载</li>
+            <li>不要随手删安装文件夹当卸载——容易留垃圾或弄坏系统</li>
+          </ol>
+        </article>
+        <article>
+          <h3>更新与安全</h3>
+          <ol>
+            <li>「设置」→「Windows 更新」：保持更新</li>
+            <li>Windows 安全中心：防火墙与病毒防护默认打开</li>
+            <li>每个账号自己的密码；公用电脑用完锁定（Win+L）</li>
+            <li>陌生邮件附件、破解版游戏：高风险，别点</li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>卡住了怎么办？（急救卡）</caption>
+          <thead>
+            <tr><th>现象</th><th>可以试什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>某个窗口没响应</td><td>Ctrl+Shift+Esc 打开任务管理器 → 结束该任务</td></tr>
+            <tr><td>整台电脑很卡</td><td>看任务管理器谁占 CPU/内存；关掉不用的网页和程序</td></tr>
+            <tr><td>上不了网</td><td>检查右下角 Wi‑Fi；重启路由器；飞行模式是否打开</td></tr>
+            <tr><td>找不到文件</td><td>任务栏搜索框输入文件名；或看「下载」「文档」</td></tr>
+            <tr><td>还是不行</td><td>保存作业后重启；仍不行再找家长协助</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tip-box">练习任务：新建文件夹「我的作业」→ 把桌面上的练习文件拖进去 → 用 Win+E 再找一遍。熟练之后，Windows 就像自己的书桌一样好用。</p>
+    
+      </div>
+    </section>
+
+    <!-- NETWORK -->
+    <section class="section" id="network">
+      <div class="section-head">
+        <p class="eyebrow">第 8 章</p>
+        <h2>网络通信：电脑怎么和远方说话？</h2>
+        <p class="section-desc">上网、看视频、打联机游戏，本质都是：把数据拆成小包裹（数据包），沿着线路送到正确的地址，再拼回来。</p>
+      </div>
+
+      <div class="net-journey" aria-hidden="true">
+        <div class="net-road">
+          <div class="net-node">
+            <div class="net-icon you">你</div>
+            <span>你家电脑</span>
+          </div>
+          <div class="net-wire"><i class="pkt"></i></div>
+          <div class="net-node">
+            <div class="net-icon router">路由</div>
+            <span>路由器</span>
+          </div>
+          <div class="net-wire"><i class="pkt d2"></i></div>
+          <div class="net-node">
+            <div class="net-icon isp">运营商</div>
+            <span>互联网</span>
+          </div>
+          <div class="net-wire"><i class="pkt d3"></i></div>
+          <div class="net-node">
+            <div class="net-icon server">服</div>
+            <span>远端服务器</span>
+          </div>
+        </div>
+        <p class="net-caption">数据包像快递：写上「寄件人 / 收件人 IP」，一站一站转发，迟到或弄丢了可能要重寄。</p>
+      </div>
+
+      <div class="net-basics">
+        <article>
+          <h3>三个必须记住的词</h3>
+          <ul class="check-list">
+            <li><strong>IP 地址</strong>：电脑在网上的门牌号，例如 <code>203.0.113.10</code></li>
+            <li><strong>端口</strong>：同一台电脑上不同「窗口」——网页常走 443，游戏另有自己的端口</li>
+            <li><strong>延迟 / Ping</strong>：一来一回要多久；越低越跟手，打竞技很敏感</li>
+          </ul>
+        </article>
+        <article>
+          <h3>打开网页时发生了什么？</h3>
+          <ol class="flow-steps net-steps">
+            <li><b>1</b><span>DNS：把「baidu.com」翻译成 IP</span></li>
+            <li><b>2</b><span>连上服务器，建立加密通道（HTTPS）</span></li>
+            <li><b>3</b><span>请求网页文件，拆成很多数据包运回</span></li>
+            <li><b>4</b><span>浏览器拼起来，显示给你看</span></li>
+          </ol>
+        </article>
+      </div>
+
+      <div class="game-net">
+        <div class="section-head compact">
+          <h3>联机游戏是怎么通信的？</h3>
+          <p class="section-desc">大多数网络游戏用「客户端 + 服务器」模式：你的电脑负责画面，服务器负责「谁说了算」——避免有人偷偷改血量作弊。</p>
+        </div>
+
+        <div class="game-lab">
+          <div class="game-stage" id="game-stage" aria-label="联机游戏示意">
+            <div class="player-slot p-you">
+              <div class="avatar you-av">你</div>
+              <p>客户端 A<br /><small>正在开枪</small></p>
+            </div>
+            <div class="server-slot">
+              <div class="server-box">
+                <span class="srv-led"></span>
+                <strong>游戏服务器</strong>
+                <small>裁判 &amp; 世界状态</small>
+              </div>
+              <div class="latency-meter">
+                <label>模拟延迟
+                  <input type="range" id="ping-range" min="20" max="280" step="20" value="60" />
+                </label>
+                <output id="ping-out">60 ms</output>
+              </div>
+            </div>
+            <div class="player-slot p-friend">
+              <div class="avatar friend-av">友</div>
+              <p>客户端 B<br /><small id="friend-status">等待中…</small></p>
+            </div>
+            <div class="packet-layer" id="packet-layer" aria-hidden="true"></div>
+          </div>
+
+          <div class="game-controls">
+            <button type="button" class="btn btn-primary" id="btn-fire">按下射击键</button>
+            <button type="button" class="btn btn-ghost" id="btn-move">发送移动坐标</button>
+            <p class="game-log" id="game-log" aria-live="polite">点按钮，看「消息包裹」飞向服务器，再广播给队友。</p>
+          </div>
+        </div>
+
+        <div class="game-steps-grid">
+          <article>
+            <strong>1. 你本地先演</strong>
+            <p>按下射击，你的画面可能立刻播动画（预测），手感才跟手。</p>
+          </article>
+          <article>
+            <strong>2. 发消息给服务器</strong>
+            <p>真正权威的结果由服务器判定：打没打中、扣多少血。</p>
+          </article>
+          <article>
+            <strong>3. 服务器广播</strong>
+            <p>把「世界更新」发给所有玩家：队友看到你开枪，对手看到自己掉血。</p>
+          </article>
+          <article>
+            <strong>4. 延迟来捣乱</strong>
+            <p>Ping 高时，消息到得慢，就会「瞬移、打不中、橡皮筋」。拖动上面的延迟滑条试试。</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="net-modes">
+        <article>
+          <h3>客户端–服务器</h3>
+          <p>像老师当裁判：大家把动作交给服务器，服务器说了算。王者、原神、大多数网游都这样。</p>
+          <ul>
+            <li>优点：更公平、难作弊、可存档进度</li>
+            <li>缺点：要租服务器，人多时要花钱扩容</li>
+          </ul>
+        </article>
+        <article>
+          <h3>点对点 P2P</h3>
+          <p>像小朋友自己组局：有时由其中一台电脑当「房主」。部分联机小游戏、旧作会用。</p>
+          <ul>
+            <li>优点：省服务器成本</li>
+            <li>缺点：房主断网全员受影响，更易被作弊</li>
+          </ul>
+        </article>
+        <article>
+          <h3>TCP vs UDP（游戏常用）</h3>
+          <p><strong>TCP</strong>：保证送到、按序——适合登录、商城、聊天。</p>
+          <p><strong>UDP</strong>：更快但不保证——适合不断刷新的位置、射击；丢一两个包就用下一帧顶上。</p>
+        </article>
+      </div>
+
+      <div class="table-wrap">
+        <table class="compare-table">
+          <caption>生活里的网络 vs 游戏里的网络</caption>
+          <thead>
+            <tr><th>场景</th><th>主要传什么</th><th>最在意什么</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>刷网页 / 看文档</td><td>完整文件，丢了要重传</td><td>正确、完整</td></tr>
+            <tr><td>看视频</td><td>连续影像块，可缓冲</td><td>带宽（够不够快）</td></tr>
+            <tr><td>语音 / 视频通话</td><td>实时声音画面</td><td>延迟 + 稳定</td></tr>
+            <tr><td>竞技联机游戏</td><td>操作、坐标、伤害结果</td><td>低延迟、公平判定</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="tip-box">动手观察：打开游戏设置里的「显示网络信息 / Ping」。Wi‑Fi 远、墙多、家里有人下大片时，Ping 往往会升高——有线网线通常更稳。</p>
+    </section>
+
+    <!-- BONUS -->
+    <section class="section" id="bonus">
+      <div class="section-head">
+        <p class="eyebrow">加餐章节</p>
+        <h2>还值得知道的事</h2>
+        <p class="section-desc">你没点名的部分，这里补上——它们会让「懂电脑」这件事连成一张网。</p>
+      </div>
+
+      <div class="bonus-grid">
+        <article class="bonus-card" id="cpu-deep">
+          <h3>CPU 如何「思考」</h3>
+          <p>CPU 不断循环：取指令 → 译码 → 执行 → 写回结果。频率（GHz）像节奏快慢；核心数像能同时雇几个工人。缓存是 CPU 旁边的小抽屉，放最常用的数据。</p>
+          <div class="mini-pipeline" aria-hidden="true">
+            <span>取指</span><span>译码</span><span>执行</span><span>写回</span>
+          </div>
+        </article>
+        <article class="bonus-card">
+          <h3>内存 vs 存储</h3>
+          <p><strong>RAM</strong>：工作台，快，关机清空。<strong>SSD/硬盘</strong>：书架，慢一点，但关机还在。电脑变慢，有时是内存不够，系统只好把工作台「挤」到硬盘上（虚拟内存），就会顿。</p>
+        </article>
+        <article class="bonus-card">
+          <h3>文件、文件夹、路径</h3>
+          <p>文件是数据的包裹；文件夹是分类抽屉。路径像地址：<code>C:\Users\Kid\作业\作文.docx</code> 或 Mac 上的 <code>/Users/kid/作业/作文.docx</code>。</p>
+        </article>
+        <article class="bonus-card">
+          <h3>想了解上网细节？</h3>
+          <p>数据包、Ping、联机游戏通信，已经写进 <a href="#network">第 8 章 · 网络通信</a>。可以和打游戏时的延迟一起对照着看。</p>
+        </article>
+        <article class="bonus-card">
+          <h3>输入设备与输出设备</h3>
+          <p><strong>输入</strong>：键盘、鼠标、麦克风、摄像头、手柄。<strong>输出</strong>：显示器、音箱、耳机、打印机。触摸屏则两边都沾边。</p>
+        </article>
+        <article class="bonus-card">
+          <h3>安全小卫士（必读）</h3>
+          <ul>
+            <li>不点来路不明的链接，不装「破解版」</li>
+            <li>账号开双重验证，密码每个网站不一样</li>
+            <li>系统与浏览器保持更新</li>
+            <li>重要作业用云盘或移动硬盘备份</li>
+          </ul>
+        </article>
+        <article class="bonus-card">
+          <h3>编程：从使用者到创造者</h3>
+          <p>会用软件很棒；会写软件更能创造。可以从 Scratch 图形化、Python、网页 HTML/CSS/JS 开始——你现在打开的这份指南，就是 HTML 做的。</p>
+        </article>
+        <article class="bonus-card">
+          <h3>AI 和电脑的关系</h3>
+          <p>AI 程序也是软件，但特别吃算力（常要 GPU）。它靠大量数据「学规律」，不是真的像人一样理解世界。你们项目里的手写数字识别，就是很好的入门实验。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Quiz -->
+    <section class="section" id="quiz">
+      <div class="section-head">
+        <p class="eyebrow">检验一下</p>
+        <h2>小测验：你记住了吗？</h2>
+        <p class="section-desc">和爸爸一起答。点选项后会立刻告诉你对不对。</p>
+      </div>
+      <div class="quiz" id="quiz-root"></div>
+    </section>
+
+    <!-- Parent tips -->
+    <section class="section section-alt" id="teach">
+      <div class="section-inner">
+      <div class="section-head">
+        <p class="eyebrow">给家长</p>
+        <h2>怎么讲给他听</h2>
+      </div>
+      <ol class="teach-steps">
+        <li>先玩第 1 章 3D 拆机，建立「零件地图」，不要一上来背名词。</li>
+        <li>用「城市比喻」串起来，再回到真实名字。</li>
+        <li>打开家里的任务管理器 / 活动监视器，看 CPU、内存占用——把抽象变成屏幕上的数字。</li>
+        <li>讲二进制时，可先念「道生一，一生二，二生三，三生万物」，再点开关看 0/1 组合。</li>
+        <li>打开第 7 章迷你 Windows，一起练：建文件夹、用搜索、认快捷键。</li>
+        <li>打一局联机游戏时打开 Ping 显示，对照第 8 章讲「消息怎么飞」。</li>
+        <li>对比家里的手机、平板、电脑：都是计算机，只是形态不同。</li>
+        <li>若他想继续：装一个 Ubuntu 虚拟机，或一起看机箱（断电！），或回到本仓库的 AI 数字识别项目。</li>
+      </ol>
+    
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <p class="footer-brand">电脑工坊</p>
+      <p>为好奇心而写 · 可与「AI 数字识别」项目一起使用</p>
+    </div>
+    <a href="#top">回到顶部</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
